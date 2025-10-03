@@ -11,7 +11,7 @@ A lightweight, fast portfolio website built with Astro5!
 - [ ] Some sort of email section
 - [ ] Public comment section
 - [ ] Harvesting user data, perhaps something similar to google analytics? (hopefully non-propriety)
-- [ ] GitHub CI
+- [x] GitHub CI
 - [ ] CV section
 
 # Getting Started
