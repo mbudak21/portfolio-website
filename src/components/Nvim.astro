@@ -1,0 +1,73 @@
+---
+import "../styles/global.css";
+---
+
+<div class="background-div">
+  <div class="file-list-div" id="file-list-div"></div> 
+  <div class="file-content-div" id="file-content-div">
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima, excepturi fuga tenetur quam libero sapiente at tempora aperiam voluptas itaque aliquid nulla recusandae possimus. Corporis alias quisquam consequatur reiciendis laudantium.
+    </p>
+  </div>
+
+</div>
+
+<style is:global>
+  .background-div {
+    display: flex;
+    gap: 10px; /* space between them */
+    border: 1px solid var(--border-color);
+    background: var(--heading-color);
+    min-height: 300px;
+    padding: 10px;
+  }
+
+  .file-list-div {
+    flex: 1; /* takes proportional space */
+    border: 1px solid var(--border-color);
+    background: var(--heading-color);
+    min-height: 300px;
+  }
+
+  .file-content-div {
+    flex: 1; /* bigger than file list */
+    border: 1px solid var(--border-color);
+    background: var(--heading-color);
+    min-height: 300px;
+  }
+  .file-list-div ul { margin: 0; padding: 0; list-style: none; }
+  .file-list-div li { padding: .4rem .6rem; cursor: default; }
+  .file-list-div li.is-selected { background: #007acc; color: var(--text-color); }
+
+</style>
+
+
+<script>
+  const items = [
+    "README.md",
+    "astro.config.mjs",
+    "package.json",
+    "src/pages/index.astro",
+    "src/components/Navbar.astro",
+    "src/components/Nvim.astro",
+    "src/styles/global.css"
+  ];
+
+
+  let count = 2;
+  const div = document.getElementById("file-list-div");
+  const list = document.createElement("ul");
+  div?.appendChild(list);
+  items.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    if (index === count) {
+      li.classList.add("is-selected");
+      console.log("selected", li.textContent);
+    }
+    list.appendChild(li);
+  });
+
+
+
+</script>

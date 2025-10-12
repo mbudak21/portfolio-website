@@ -1,5 +1,17 @@
 ---
+import "../styles/global.css";
+import ThemeSwitcher from "../components/ThemeSwitcher.astro";
+import Navbar from "../components/Navbar.astro";
+import Nvim from "../components/Nvim.astro";
+import Test from "../components/test.astro";
 
+const pageTitle = "mbudak21.com"
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
+];
 ---
 
 <html lang="en">
@@ -8,9 +20,18 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>{pageTitle}</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+    <Navbar {links} />
+		<h1>M. Murat Budak</h1>
+
+    <ThemeSwitcher/>
+
+    <Nvim client:load/>
+	<Test client:load/>
+      
 	</body>
 </html>
+
+

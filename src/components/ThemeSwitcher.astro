@@ -1,0 +1,36 @@
+---
+import "../styles/global.css"
+---
+
+<style>
+  .theme-switcher {
+    background: var(--primary-color);
+    color: var(--bg-color);
+    border: 0;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+</style>
+
+<button class="theme-switcher"> Next Theme </button>
+
+<script>
+  const order = ["", "dark", "solarized-dark"];
+  let i = order.indexOf(localStorage.theme ?? "");
+  i = i < 0 ? 0 : i;
+
+  const set = (t) => {
+    t ? document.documentElement.setAttribute("data-theme", t)
+      : document.documentElement.removeAttribute("data-theme");
+    localStorage.theme = t;
+  };
+
+  set(order[i]); // apply saved on load
+
+  document.querySelector(".theme-switcher").onclick = () => {
+    i = (i + 1) % order.length;
+    set(order[i]);
+  };
+</script>
+

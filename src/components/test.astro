@@ -1,0 +1,29 @@
+---
+---
+
+<div>
+  <p id="counter">0</p>
+  <button id="increment-btn">Increment</button>
+</div>
+
+<script>
+  let count = 0;
+  const counter = document.getElementById("counter");
+  const button = document.getElementById("increment-btn");
+
+  function update() {
+    count++;
+    if (counter) {
+      counter.textContent = count.toString();
+    }
+  }
+
+  button?.addEventListener("click", update);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      update();
+    }
+  });
+</script>

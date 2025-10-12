@@ -1,0 +1,49 @@
+@import url('https://fonts.cdnfonts.com/css/cascadia-code');
+
+:root {
+  --primary-color: #0066ff;
+  --secondary-color: #5a5a5a;
+  --accent-color: #ffb400;
+  --bg-color: #ffffff;
+  --surface-color: #f5f5f5;
+  --font-color: #1a1a1a;
+  --heading-color: #000000;
+  --border-color: #cccccc;
+}
+[data-theme="dark"] {
+  --primary-color: #6699ff;
+  --secondary-color: #aaaaaa;
+  --accent-color: #ffd166;
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --font-color: #eaeaea;
+  --heading-color: #ffffff;
+  --border-color: #333333;
+}
+[data-theme="solarized-dark"] {
+  --primary-color: #268bd2;
+  --secondary-color: #2aa198;
+  --accent-color: #b58900;
+  --bg-color: #002b36;
+  --surface-color: #073642;
+  --font-color: #93a1a1;
+  --heading-color: #eee8d5;
+  --border-color: #586e75;
+}
+
+
+html {
+  font-family: "Cascadia Code", Consolas, monospace;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  max-width: 90%;
+  margin: 0 auto;
+  font-size: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
