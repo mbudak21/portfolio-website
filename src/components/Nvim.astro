@@ -1,72 +1,168 @@
 ---
 import "../styles/global.css";
+
 ---
 
-<div class="background-div">
-  <div class="file-list-div" id="file-list-div"></div> 
-  <div class="file-content-div" id="file-content-div">
+<div id="background-div" class="nvim-div">
+  <div id="left-container-div" class="nvim-div">
+    <div id="fuzzy-finder-div" class="nvim-div"> test    22/33</div>
+    <div id="file-list-div" class="nvim-div"></div>
+  </div>
+  
+  <div id="file-content-div" class="nvim-div">
     <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima, excepturi fuga tenetur quam libero sapiente at tempora aperiam voluptas itaque aliquid nulla recusandae possimus. Corporis alias quisquam consequatur reiciendis laudantium.
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima,
+      excepturi fuga tenetur quam libero sapiente at tempora aperiam voluptas
+      itaque aliquid nulla recusandae possimus. Corporis alias quisquam
+      consequatur reiciendis laudantium.
     </p>
   </div>
-
 </div>
 
 <style is:global>
-  .background-div {
+  .nvim-div {
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--font-color);
+  }
+  #background-div {
     display: flex;
     gap: 10px; /* space between them */
-    border: 1px solid var(--border-color);
-    background: var(--heading-color);
-    min-height: 300px;
+    min-height: 700px;
     padding: 10px;
   }
+  #left-container-div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 300px;
+  }
+  #file-list-div {
+    height: 100%;
+  }
 
-  .file-list-div {
-    flex: 1; /* takes proportional space */
-    border: 1px solid var(--border-color);
-    background: var(--heading-color);
+  #file-content-div {
+    flex: 1;
     min-height: 300px;
   }
 
-  .file-content-div {
-    flex: 1; /* bigger than file list */
-    border: 1px solid var(--border-color);
-    background: var(--heading-color);
-    min-height: 300px;
-  }
-  .file-list-div ul { margin: 0; padding: 0; list-style: none; }
-  .file-list-div li { padding: .4rem .6rem; cursor: default; }
-  .file-list-div li.is-selected { background: #007acc; color: var(--text-color); }
 
+  #file-list-div ul {
+    list-style-type: none;
+    padding-left: 0px;
+    margin: 0;
+  }
+
+  #file-list-div ul li::before {
+    content: ">";
+    position: absolute;
+    left: 2px;
+    color: transparent;
+  }
+  #file-list-div ul li {
+    position: relative;
+    padding-left: 1em;
+    color: var(--font-color);
+  }
+
+  #file-list-div ul li.is-selected::before {
+    color: var(--heading-color);
+  }
+  #file-list-div ul li.is-selected {
+    background: var(--accent-color);
+    color: var(--heading-color);
+  }
 </style>
 
-
 <script>
-  const items = [
-    "README.md",
-    "astro.config.mjs",
-    "package.json",
-    "src/pages/index.astro",
-    "src/components/Navbar.astro",
-    "src/components/Nvim.astro",
-    "src/styles/global.css"
-  ];
+class Nvim {
+  selected = 0;
 
+  fileContent: Array<Array<string>>;
+  fileCount: number;
+  background_div: HTMLDivElement;
+  file_list_div: HTMLDivElement;
+  file_ul: HTMLUListElement;
+  file_content_div: HTMLDivElement;
+  content_p: HTMLParagraphElement;
 
-  let count = 2;
-  const div = document.getElementById("file-list-div");
-  const list = document.createElement("ul");
-  div?.appendChild(list);
-  items.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    if (index === count) {
-      li.classList.add("is-selected");
-      console.log("selected", li.textContent);
+  constructor(
+    background_div: HTMLDivElement,
+    file_list_div: HTMLDivElement,
+    file_content_div: HTMLDivElement
+  ) {
+    this.background_div = background_div;
+    this.file_list_div = file_list_div;
+    this.file_content_div = file_content_div;
+    this.fileContent = [
+      ["index.html", "<html>...</html>"],
+      ["style.css", "body { color: red; }"],
+      ["script.js", "console.log('hi');"]
+    ];
+    this.fileCount = this.fileContent.length;
+
+    // Create initial elements, <ul> for file_list, <p> for file_content
+    this.file_ul = document.createElement("ul");
+    this.file_ul.classList.add("child");
+    this.file_list_div.append(this.file_ul);
+
+    this.content_p = document.createElement("p");
+    this.content_p.classList.add("child");
+    this.file_content_div.append(this.content_p);
+
+    // Add the event listener
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "j") {this.moveSelected(1); this.initialize();};
+      if (e.key === "ArrowUp" || e.key === "k") {this.moveSelected(-1); this.initialize();};
+    });
+  }
+
+  initialize(){
+    // File List section
+    const frag = document.createElement("frag");
+    for (let i = 0; i < this.fileContent.length; i++) {
+      const row = document.createElement("li");
+      row.classList.add("child");
+      row.textContent = this.fileContent[i][0];
+      if (i == this.selected){
+        row.classList.add("is-selected");
+      }
+      frag.appendChild(row);
     }
-    list.appendChild(li);
-  });
+    this.file_ul.replaceChildren(frag);
+
+    // File Content section
+    const p = document.createElement("p");
+    p.textContent = this.fileContent[this.selected][1];
+    p.classList.add("child");
+    this.file_content_div.replaceChildren(p);
+
+  }
+
+  getSelected(){
+    return this.selected;
+  }
+  setSelected(i: number) {
+    this.selected = i;
+  }
+  moveSelected(delta: number) {
+    this.selected += delta;
+    if (this.selected <= -1) {this.selected = this.fileCount - 1};
+    if (this.selected >= this.fileCount) {this.selected = 0};
+  }
+  
+
+
+}
+
+
+  const background_div = document.body.querySelector("#background-div");
+  const file_list_div = document.body.querySelector("#file-list-div");
+  const file_content_div = document.body.querySelector("#file-content-div");
+
+  const n = new Nvim(background_div as HTMLDivElement, file_list_div as HTMLDivElement, file_content_div as HTMLDivElement)
+  n.initialize();
+
 
 
 
