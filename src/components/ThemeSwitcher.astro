@@ -20,7 +20,7 @@ import "../styles/global.css"
   let i = order.indexOf(localStorage.theme ?? "");
   i = i < 0 ? 0 : i;
 
-  const set = (t) => {
+  const set = (t: string) => {
     t ? document.documentElement.setAttribute("data-theme", t)
       : document.documentElement.removeAttribute("data-theme");
     localStorage.theme = t;
@@ -28,9 +28,13 @@ import "../styles/global.css"
 
   set(order[i]); // apply saved on load
 
-  document.querySelector(".theme-switcher").onclick = () => {
-    i = (i + 1) % order.length;
-    set(order[i]);
-  };
+  const el = document.querySelector(".theme-switcher") as HTMLElement | null
+  if(el){
+    el.onclick = () => {
+      i = (i + 1) % order.length;
+      set(order[i]);
+    };
+  }
+
 </script>
 

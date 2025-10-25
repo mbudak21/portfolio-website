@@ -3,7 +3,6 @@ import "../styles/global.css";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import Navbar from "../components/Navbar.astro";
 import Nvim from "../components/Nvim.astro";
-import Test from "../components/test.astro";
 
 const pageTitle = "mbudak21.com"
 const links = [
@@ -28,8 +27,7 @@ const links = [
 
     <ThemeSwitcher/>
 
-    <Nvim client:load/>
-	<Test client:load/>
+    <Nvim/>
       
 	</body>
 </html>

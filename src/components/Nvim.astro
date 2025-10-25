@@ -1,169 +1,92 @@
 ---
 import "../styles/global.css";
-
+const files = [
+  { name: "index.html", content: "<html>...</html>" },
+  { name: "style.css",  content: "body { color: red; }" },
+  { name: "script.js",  content: "console.log('hi');" },
+];
 ---
 
-<div id="background-div" class="nvim-div">
-  <div id="left-container-div" class="nvim-div">
-    <div id="fuzzy-finder-div" class="nvim-div"> test    22/33</div>
-    <div id="file-list-div" class="nvim-div"></div>
+<div class="nvim nvim-root-div" data-nvim>
+  <div class="nvim__left nvim-root-div">
+    <div class="nvim__fuzzy nvim-root-div"> Test </div>
+    <div class="nvim__list" aria-label="Files">
+      <ul>
+      {files.map((f, i) => (
+        <li class={`${i === 0 ? "is-selected" : ""}`} aria-selected={i === 0} data-index={i}>
+          {f.name}
+        </li>
+      ))}
+      </ul>
+    </div>
   </div>
-  
-  <div id="file-content-div" class="nvim-div">
-    <p>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima,
-      excepturi fuga tenetur quam libero sapiente at tempora aperiam voluptas
-      itaque aliquid nulla recusandae possimus. Corporis alias quisquam
-      consequatur reiciendis laudantium.
-    </p>
+  <div class="nvim__content nvim-root-div">
+    <pre data-content>{files[0].content}</pre>
   </div>
+
+
+  <script type="application/json" data-nvim-files>
+    {JSON.stringify(files)}
+  </script>
 </div>
 
 <style is:global>
-  .nvim-div {
+
+  .nvim-root-div {
     border: 1px solid var(--border-color);
     background: var(--bg-color);
     color: var(--font-color);
   }
-  #background-div {
+  .nvim {
     display: flex;
     gap: 10px; /* space between them */
     min-height: 700px;
     padding: 10px;
   }
-  #left-container-div {
+  .nvim__left {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 300px;
   }
-  #file-list-div {
-    height: 100%;
-  }
-
-  #file-content-div {
+  .nvim__content {
     flex: 1;
     min-height: 300px;
   }
-
-
-  #file-list-div ul {
+  .nvim__list ul {
     list-style-type: none;
     padding-left: 0px;
     margin: 0;
   }
-
-  #file-list-div ul li::before {
+  .nvim__list ul li::before {
     content: ">";
     position: absolute;
     left: 2px;
     color: transparent;
   }
-  #file-list-div ul li {
+  .nvim__list ul li {
     position: relative;
     padding-left: 1em;
     color: var(--font-color);
   }
 
-  #file-list-div ul li.is-selected::before {
+  .nvim__list ul li.is-selected::before {
     color: var(--heading-color);
   }
-  #file-list-div ul li.is-selected {
+  .nvim__list ul li.is-selected {
     background: var(--accent-color);
     color: var(--heading-color);
   }
 </style>
 
-<script>
-class Nvim {
-  selected = 0;
+<script type="module" data-nvim-script>
+  // Get the component root
+  const root = document.querySelector('[data-nvim]');
+  if (!root) throw new Error('nvim root not found');
 
-  fileContent: Array<Array<string>>;
-  fileCount: number;
-  background_div: HTMLDivElement;
-  file_list_div: HTMLDivElement;
-  file_ul: HTMLUListElement;
-  file_content_div: HTMLDivElement;
-  content_p: HTMLParagraphElement;
+  // Read the JSON <script> inside the root (safer scoping)
+  const dataEl = root.querySelector('script[data-nvim-files]');
+  const files = JSON.parse(dataEl?.textContent ?? '[]');
 
-  constructor(
-    background_div: HTMLDivElement,
-    file_list_div: HTMLDivElement,
-    file_content_div: HTMLDivElement
-  ) {
-    this.background_div = background_div;
-    this.file_list_div = file_list_div;
-    this.file_content_div = file_content_div;
-    this.fileContent = [
-      ["index.html", "<html>...</html>"],
-      ["style.css", "body { color: red; }"],
-      ["script.js", "console.log('hi');"]
-    ];
-    this.fileCount = this.fileContent.length;
-
-    // Create initial elements, <ul> for file_list, <p> for file_content
-    this.file_ul = document.createElement("ul");
-    this.file_ul.classList.add("child");
-    this.file_list_div.append(this.file_ul);
-
-    this.content_p = document.createElement("p");
-    this.content_p.classList.add("child");
-    this.file_content_div.append(this.content_p);
-
-    // Add the event listener
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowDown" || e.key === "j") {this.moveSelected(1); this.initialize();};
-      if (e.key === "ArrowUp" || e.key === "k") {this.moveSelected(-1); this.initialize();};
-    });
-  }
-
-  initialize(){
-    // File List section
-    const frag = document.createElement("frag");
-    for (let i = 0; i < this.fileContent.length; i++) {
-      const row = document.createElement("li");
-      row.classList.add("child");
-      row.textContent = this.fileContent[i][0];
-      if (i == this.selected){
-        row.classList.add("is-selected");
-      }
-      frag.appendChild(row);
-    }
-    this.file_ul.replaceChildren(frag);
-
-    // File Content section
-    const p = document.createElement("p");
-    p.textContent = this.fileContent[this.selected][1];
-    p.classList.add("child");
-    this.file_content_div.replaceChildren(p);
-
-  }
-
-  getSelected(){
-    return this.selected;
-  }
-  setSelected(i: number) {
-    this.selected = i;
-  }
-  moveSelected(delta: number) {
-    this.selected += delta;
-    if (this.selected <= -1) {this.selected = this.fileCount - 1};
-    if (this.selected >= this.fileCount) {this.selected = 0};
-  }
-  
-
-
-}
-
-
-  const background_div = document.body.querySelector("#background-div");
-  const file_list_div = document.body.querySelector("#file-list-div");
-  const file_content_div = document.body.querySelector("#file-content-div");
-
-  const n = new Nvim(background_div as HTMLDivElement, file_list_div as HTMLDivElement, file_content_div as HTMLDivElement)
-  n.initialize();
-
-
-
-
+  console.log(files[0]); // works
 </script>
