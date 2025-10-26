@@ -26,12 +26,16 @@ const files = [
 
 
   <script type="application/json" data-nvim-files>
-    {JSON.stringify(files)}
+    [
+      { "name": "index.html", "content": "<html>...</html>" },
+      { "name": "style.css", "content": "body { color: red; }" },
+      { "name": "script.js", "content": "console.log('hi');" }
+    ]
   </script>
+
 </div>
 
 <style is:global>
-
   .nvim-root-div {
     border: 1px solid var(--border-color);
     background: var(--bg-color);
@@ -89,4 +93,56 @@ const files = [
   const files = JSON.parse(dataEl?.textContent ?? '[]');
 
   console.log(files[0]); // works
+
+  const contentArea = document.querySelector('.nvim__content pre');
+
+
+  // Assume 0th element is selected
+  let selected = 0;
+
+  function setSelection(delta) {
+    const newIndex = (selected + delta + files.length) % files.length;
+    const currentItem = document.querySelector(`.nvim__list ul li[data-index="${selected}"]`);
+    const newItem = document.querySelector(`.nvim__list ul li[data-index="${newIndex}"]`);
+
+    // Remove "is-selected" from the current item
+    if (currentItem) {
+      currentItem.classList.remove('is-selected');
+      currentItem.setAttribute('aria-selected', 'false');
+    }
+
+    // Add "is-selected" to the new item
+    if (newItem) {
+      newItem.classList.add('is-selected');
+      newItem.setAttribute('aria-selected', 'true');
+    }
+    selected = newIndex;
+    if (contentArea) {
+      contentArea.textContent = files[selected].content;
+    }
+  }
+
+  //////////////////////////////
+  //   Interactivity section  //
+  //////////////////////////////
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      setSelection(1); e.preventDefault();
+    }
+    else if (e.key === 'ArrowUp') {
+      setSelection(-1); e.preventDefault();
+    }
+  })
+
+  const listItems = document.querySelectorAll('.nvim__list ul li');
+  listItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      const index = parseInt(item.getAttribute('data-index'), 10);
+      if (index !== selected) {
+        setSelection(index - selected); // Set the new selection by clicking
+      }
+    });
+  });
+
 </script>
