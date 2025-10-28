@@ -3,6 +3,7 @@ import "../styles/global.css";
 import ThemeSwitcher from "../components/ThemeSwitcher.astro";
 import Navbar from "../components/Navbar.astro";
 import Nvim from "../components/Nvim.astro";
+import GlassButton from "../components/Glass-btn.astro";
 
 const pageTitle = "mbudak21.com"
 const links = [
@@ -23,13 +24,27 @@ const links = [
 	</head>
 	<body>
     <Navbar {links} />
-		<h1>M. Murat Budak</h1>
+		<canvas id="bg-canvas"></canvas>
+		<!-- <ThemeSwitcher/> -->
+		<!-- <Nvim/> -->
+    
+    <div class="wrap">
+      <h1 class="center">Clean Code. Systems. Graphics.</h1>
+      <p class="muted center">I build fast, minimal software and occasional pretty pixels.</p>
+    </div>
 
-    <ThemeSwitcher/>
+    <div class="wrap center">
+      <GlassButton as="a" href={links[1].href} text="View Projects"/>
+    </div>
 
-    <Nvim/>
-      
+    <div class="wrap">
+      <h2>About</h2>
+      <p class="soft-p"> 
+        I'm Murat, and I absolutely love pizza. <br>
+        <!-- And this website, what started as a `Hire Me!` showcase is one of the ways I want to express myself. <br>
+        So if you are here to be impressed, well, I'm here to deliver. -->
+      </p>
+    </div>
+    
 	</body>
 </html>
-
-
