@@ -1,0 +1,100 @@
+---
+export interface Props {
+  text?: string;
+  as?: 'button' | 'a';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+}
+
+const {
+  text = 'Click me',
+  as = 'button',
+  href = '#',
+  type = 'button',
+  class: className = ''
+} = Astro.props as Props;
+---
+
+{as === 'a' ? (
+  <a href={href} class={`glass-btn ${className}`}>{text}</a>
+) : (
+  <button type={type} class={`glass-btn ${className}`}>{text}</button>
+)}
+
+<style>
+  :global(:root){
+    --glass-bg1: rgba(255, 255, 255, 0.078);
+    --glass-bg2: rgba(255,255,255,0.06);
+    --glass-border: rgba(255,255,255,0.28);
+    --glass-highlight: rgba(255,255,255,0.65);
+    --radius: 14px;
+    --pad: 0.65rem 1rem;
+  }
+
+  .glass-btn{
+    position: relative;
+    appearance: none;
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius);
+    padding: var(--pad);
+    color: #fff;
+    background: linear-gradient(135deg, var(--glass-bg1), var(--glass-bg2));
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    letter-spacing: .2px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .glass-btn::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+    padding: 1px;
+    background: linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, magenta, red);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+  }
+
+  .glass-btn:hover::before{
+    opacity: 1;
+    animation: hueShift 2s linear infinite;
+  }
+
+  @keyframes hueShift {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  .glass-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.28);
+  }
+
+  .glass-btn:active{
+    transform: translateY(0);
+    box-shadow: inset 0 2px 12px rgba(0,0,0,0.35), 0 3px 12px rgba(0,0,0,0.22);
+  }
+
+  .glass-btn:focus-visible{
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.5), 0 8px 24px rgba(0,0,0,.22);
+  }
+
+  @supports not (backdrop-filter: blur(1px)){
+    .glass-btn{ background: rgba(255,255,255,0.12); }
+  }
+</style>
