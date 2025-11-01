@@ -8,7 +8,8 @@
   --surface-color: #000000;
   --font-color: #eaeaea;
   --heading-color: #ffffff;
-  --border-color: #3333338f;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --glass-background: rgba(20, 20, 20, 0.35);
 
 }
 [data-theme="dark"] {
@@ -36,18 +37,21 @@
 html {
   font-family: "Cascadia Code", Consolas, monospace;
   letter-spacing: 0.01em;
+  margin: 0;
 }
 
 body {
   background-color: var(--bg-color);
   color: var(--font-color);
   max-width: 90%;
+  height: 40vh;
   margin: 0 auto;
   font-size: 18px;
 }
 
 * {
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 .wrap { 
@@ -72,6 +76,10 @@ body {
   
 }
 
+.spacer {
+  height: 100%;
+}
+
 h1 {
   font-size: 40px;
   letter-spacing: 0px;
@@ -80,7 +88,3 @@ h1 {
   border-radius: 1px;
   border-color: #0066ff;
 }
-
-
-
-

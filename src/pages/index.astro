@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar.astro";
 import Nvim from "../components/Nvim.astro";
 import GlassButton from "../components/Glass-btn.astro";
 import Background3D from "../components/Background3D.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
 
 const pageTitle = "~/portfolio"
 const links = [
@@ -46,26 +48,30 @@ Then I spend four hours debugging why my latest wayland config got nuked. <br> <
 Maybe that’s what passion is. Or maybe it’s brain damage. Hard to say.  <br> <br> <br> <br>
 
 The rest of the website is in development, I'll push it in a few days. <br>
-      </p>
+
+</p>
     </div>
 
-    <div class="wrap">
+    <!-- <div class="wrap">
       <button id="test">Test</button>
-    </div>
-
+    </div> -->
+    <!-- <Contact/> -->
+     <div class="spacer"></div>
+    <Footer/>
 	</body>
 </html>
 
 <script>
 
-  window.addEventListener('DOMContentLoaded', () => {
+  // window.addEventListener('DOMContentLoaded', () => {
 
-    const btn = document.querySelector("#test");
-    btn?.addEventListener('click', () => {
-      console.log("Click");
-      window.Background3D?.setSpeedx(window.Background3D?.getSpeedx() + 0.01);
+  //   const btn = document.querySelector("#test");
+  //   btn?.addEventListener('click', () => {
+  //     console.log("Click");
+  //     // window.Background3D.setColor('#00ffff');
+  //     // window.Background3D?.setSpeedx(window.Background3D?.getSpeedx() + 0.01);
 
-    })
-  });
+  //   })
+  // });
 
 </script>

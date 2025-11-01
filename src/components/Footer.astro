@@ -1,0 +1,80 @@
+---
+import GitHubIcon from '../../public/github.svg';
+import LinkedinIcon from '../../public/linkedin.svg';
+import MailIcon from '../../public/mail.svg';
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="muted socials">
+      <a href="https://github.com/mbudak21" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <GitHubIcon />
+      </a>
+      <a href="https://www.linkedin.com/in/mbudak21" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <LinkedinIcon />
+      </a>
+      <a href="mailto:mbudak21@ku.edu.tr" aria-label="Email">
+        <MailIcon />
+      </a>
+    </p>
+    <p class="muted note">© {new Date().getFullYear()} M. Murat Budak</p>
+  </div>
+</footer>
+
+<style>
+    :root { --footer-h: 150px; }
+
+  .footer {
+    height: var(--footer-h);
+    
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+
+    background: var(--glass-background); /* translucent dark */
+    backdrop-filter: blur(12px) saturate(1.8);
+    -webkit-backdrop-filter: blur(12px) saturate(1.8);
+
+    color: var(--font-color);
+    padding: 0 1rem;
+
+    border-bottom: 1px solid var(--border-color);
+
+    /* Optional: subtle shadow for depth */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* ensure it sits above the canvas */
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .socials {
+    display: flex;
+    gap: 1.4rem;
+  }
+
+  .socials a svg {
+    width: 22px;
+    height: 22px;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+  }
+
+  .socials a:hover svg {
+    fill: #ffffff29;
+    filter: drop-shadow(0 0 6px #fff3);
+    transform: translateY(-2px);
+  }
+
+  .note {
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #666;
+  }
+</style>

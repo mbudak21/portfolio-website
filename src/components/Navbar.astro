@@ -19,7 +19,7 @@ const { links = [
     justify-content: space-between;
 
     /* Glass effect */
-    background: rgba(20, 20, 20, 0.35); /* translucent dark */
+    background: var(--glass-background); /* translucent dark */
     backdrop-filter: blur(12px) saturate(1.8);
     -webkit-backdrop-filter: blur(12px) saturate(1.8);
 
@@ -27,7 +27,7 @@ const { links = [
     padding: 0 1rem;
     position: sticky;
     top: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid var(--border-color);
 
     /* Optional: subtle shadow for depth */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
