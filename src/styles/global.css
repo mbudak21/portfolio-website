@@ -8,7 +8,8 @@
   --surface-color: #000000;
   --font-color: #eaeaea;
   --heading-color: #ffffff;
-  --border-color: rgba(255, 255, 255, 0.15);
+  --highlight-color: #c8e1ff;
+  --border-color: rgba(2, 1, 1, 0.15);
   --glass-background: rgba(20, 20, 20, 0.35);
 
 }
