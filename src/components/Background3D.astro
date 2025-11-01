@@ -18,6 +18,7 @@ const {Canvas} = Astro.props;
 <script>
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { FlakesTexture } from 'three/examples/jsm/Addons.js';
 
   export class ThreeRenderer{
     private canvas!: HTMLCanvasElement;
@@ -30,7 +31,6 @@ const {Canvas} = Astro.props;
     private speedx!: number;
     private speedy!: number;
 
-
     constructor(canvasSelector = '#bg-canvas') {
       const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement | null;
       if (!canvas) {
@@ -38,9 +38,6 @@ const {Canvas} = Astro.props;
         return;
       }
       this.canvas = canvas;
-      this.speedx = 0.01;
-      this.speedy = 0.01;
-
 
       this.init();
       this.animate = this.animate.bind(this); // bind once
@@ -50,15 +47,43 @@ const {Canvas} = Astro.props;
     }
 
     createScene(){
+      this.speedx = 0.002;
+      this.speedy = 0.002;
+
+      
+
       this.torusMesh = new THREE.Mesh(
-        new THREE.TorusKnotGeometry(1, 0.3, 2560, 256, 1, 3),
-        new THREE.MeshStandardMaterial()
+        new THREE.TorusKnotGeometry(3, 0.45, 512, 64, 2, 3),
+        new THREE.MeshPhysicalMaterial(
+        {
+          anisotropy: 0,
+          sheen: 1,
+          color: 0xffffff,
+          emissive: 0x222233,
+          metalness: 0.8,
+          roughness: 0.20,
+          wireframe: true,
+        }
+        )
       );
       this.scene.add(this.torusMesh);
 
-      const light = new THREE.PointLight(0xffffff, 3);
-      light.position.set(5, 5, -5);
-      this.scene.add(light);
+      const l1 = new THREE.PointLight(0xffffff, 3);
+      l1.position.set(5, 5, -5);
+      this.scene.add(l1);
+
+      const l2 = new THREE.PointLight(0xffffff, 3);
+      l2.position.set(-5, 5, -5);
+      this.scene.add(l2);
+    }
+
+    animate() {
+      requestAnimationFrame(this.animate);
+      this.torusMesh.rotation.x += this.speedx;
+      this.torusMesh.rotation.y += this.speedy;
+
+      this.controls.update();
+      this.renderer.render(this.scene, this.camera);
     }
 
     init() {
@@ -89,15 +114,6 @@ const {Canvas} = Astro.props;
       this.createScene();
     }
 
-    animate() {
-      requestAnimationFrame(this.animate);
-      this.torusMesh.rotation.x += this.speedx;
-      this.torusMesh.rotation.y += this.speedy;
-      this.controls.update();
-
-      this.renderer.render(this.scene, this.camera);
-    }
-
     onResize() {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
@@ -120,7 +136,9 @@ const {Canvas} = Astro.props;
     }
 
     setColor(hex: THREE.ColorRepresentation) {
-      console.log("HelO??");
+      if (this.torusMesh && this.torusMesh.material instanceof THREE.MeshStandardMaterial) {
+        this.torusMesh.material.color = new THREE.Color(hex);
+      }
     }
   }
 
