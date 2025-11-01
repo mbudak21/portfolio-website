@@ -17,12 +17,12 @@ import MailIcon from '../../public/mail.svg';
         <MailIcon />
       </a>
     </p>
-    <p class="muted note">© {new Date().getFullYear()} M. Murat Budak</p>
+    <p class="muted note">© {new Date().getFullYear()} M. Murat Budak - This website uses <a href="https://analytics.mbudak21.com" target="_blank" rel="noopener"> Matomo</a>, a self-hosted analytics platform.</p>
   </div>
 </footer>
 
 <style>
-    :root { --footer-h: 150px; }
+  :root { --footer-h: 150px; }
 
   .footer {
     height: var(--footer-h);
@@ -67,7 +67,7 @@ import MailIcon from '../../public/mail.svg';
   }
 
   .socials a:hover svg {
-    fill: #ffffff29;
+    fill: #c8e1ff41;
     filter: drop-shadow(0 0 6px #fff3);
     transform: translateY(-2px);
   }
@@ -77,4 +77,16 @@ import MailIcon from '../../public/mail.svg';
     letter-spacing: 0.5px;
     color: #666;
   }
+
+  /* Matomo Link */
+  .note a {
+    color: var(--secondary-color);
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+
+  .note a:hover {
+    color: var(--highlight-color);
+  }
+
 </style>
