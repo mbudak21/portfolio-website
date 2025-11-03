@@ -2,7 +2,7 @@
 A lightweight, fast portfolio website built with Astro5!
 
 # Features (roadmap)
-- [ ] A nice homepage
+- [x] A nice homepage
 - [ ] Light/Dark mode
 - [ ] Perhaps a casual game?
 - [ ] Integration for p5js sketches
@@ -10,9 +10,11 @@ A lightweight, fast portfolio website built with Astro5!
 - [ ] Integrate the above using GitHub submodules
 - [ ] Some sort of email section
 - [ ] Public comment section
-- [ ] Harvesting user data, perhaps something similar to google analytics? (hopefully non-propriety)
+- [x] Harvesting user data, perhaps something similar to google analytics? (hopefully non-propriety)
 - [x] GitHub CI
 - [ ] CV section
+- [ ] A food critique page? (Lezzet rehberi)
+- [ ] Blog section
 
 # Getting Started
 ```sh
