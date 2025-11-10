@@ -20,12 +20,6 @@ export async function getStaticPaths() {
 }
 
 const pageTitle = t('pageTitle')
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
-];
 ---
 
 <html lang={lang}>
@@ -59,7 +53,7 @@ const links = [
 
 	</head>
 	<body>
-    <Navbar {links} />
+    <Navbar/>
 		<Background3D/>
 		<!-- <ThemeSwitcher/> -->
 		<!-- <Nvim/> -->
@@ -70,7 +64,7 @@ const links = [
     </div>
 
     <div class="wrap center">
-      <GlassButton as="a" href={links[1].href} text={t('homePage.GlassButtonText')}/>
+      <GlassButton as="a" href='/projects' text={t('homePage.GlassButtonText')}/>
     </div>
 
     <div class="wrap">
@@ -91,18 +85,3 @@ const links = [
     <Footer/>
 	</body>
 </html>
-
-<script>
-
-  // window.addEventListener('DOMContentLoaded', () => {
-
-  //   const btn = document.querySelector("#test");
-  //   btn?.addEventListener('click', () => {
-  //     console.log("Click");
-  //     // window.Background3D.setColor('#00ffff');
-  //     // window.Background3D?.setSpeedx(window.Background3D?.getSpeedx() + 0.01);
-
-  //   })
-  // });
-
-</script>

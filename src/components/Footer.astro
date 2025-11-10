@@ -2,6 +2,10 @@
 import GitHubIcon from '../../public/github.svg';
 import LinkedinIcon from '../../public/linkedin.svg';
 import MailIcon from '../../public/mail.svg';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <footer class="footer">
@@ -17,7 +21,10 @@ import MailIcon from '../../public/mail.svg';
         <MailIcon />
       </a>
     </p>
-    <p class="muted note">© {new Date().getFullYear()} M. Murat Budak - This website uses <a href="https://analytics.mbudak21.com" target="_blank" rel="noopener"> Matomo</a>, a self-hosted analytics platform.</p>
+    <p class="muted note">
+      <!-- © {new Date().getFullYear()} M. Murat Budak - This website uses <a href="https://analytics.mbudak21.com" target="_blank" rel="noopener"> Matomo</a>, a self-hosted analytics platform. -->
+      {t('footer.note.before')} <a href="https://analytics.mbudak21.com" target="_blank" rel="noopener">{t('footer.note.link')}</a>{t('footer.note.after')}
+    </p>
   </div>
 </footer>
 

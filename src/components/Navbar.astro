@@ -1,12 +1,17 @@
 ---
 // Navbar.astro
 export interface Link { href: string; label: string }
-const { links = [
-  { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
-] }: { links?: Link[] } = Astro.props;
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const links = [
+  { href: "/", label: t('navbar.home') },
+  { href: "/projects", label: t('navbar.projects') },
+  { href: "/blog", label: t('navbar.blog') },
+  { href: "/contact", label: t('navbar.contact') },
+];
 ---
 
 <style>
