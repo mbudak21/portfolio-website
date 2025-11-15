@@ -1,13 +1,9 @@
 ---
-import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
-import "../../styles/global.css";
-import ThemeSwitcher from "../../components/ThemeSwitcher.astro";
-import Navbar from "../../components/Navbar.astro";
-import Nvim from "../../components/Nvim.astro";
 import GlassButton from "../../components/Glass-btn.astro";
-import Background3D from "../../components/Background3D.astro";
-import Footer from "../../components/Footer.astro";
+
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -16,72 +12,36 @@ export async function getStaticPaths() {
   return [
     { params: { locale: 'en' } },
     { params: { locale: 'tr' } },
+    { params: { locale: 'ru' } },
+    { params: { locale: 'zh' } },
   ];
 }
 
 const pageTitle = t('pageTitle')
 ---
 
-<html lang={lang}>
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{pageTitle}</title>
-    
-  <!-- Matomo -->
-  <script type="module" is:inline>
-    var _paq = window._paq = window._paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-    _paq.push(["setCookieDomain", "*.mbudak21.com"]);
-    _paq.push(["setDomains", ["*.mbudak21.com"]]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//analytics.mbudak21.com/";
-      _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '1']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <noscript><p><img referrerpolicy="no-referrer-when-downgrade" src="//analytics.mbudak21.com/matomo.php?idsite=1&amp;rec=1" style="border:0;" alt="" /></p></noscript>
-  <!-- End Matomo Code -->
+<BaseLayout pageTitle={pageTitle} lang={lang}>
+  
+  <div class="wrap">
+    <h1 class="center">{t('homePage.h1')}</h1>
+    <p class="muted center">{t('homePage.h1.p')}</p>
+  </div>
 
+  <div class="wrap center">
+    <GlassButton as="a" 
+      href={`/${lang}/projects`}
+      text={t('homePage.GlassButtonText')}
+    />
+  </div>
+  
+  <div class="wrap">
+    <h2>{t('homePage.About')}</h2>
+    <p class="soft-p">
+      {t('homePage.About.p1')}
+      {t('homePage.About.p2')} <br><br>
+      {t('homePage.About.p3')} <br><br><br><br>
+      {t('homePage.About.p4')}
+    </p>
+  </div>
 
-	</head>
-	<body>
-    <Navbar/>
-		<Background3D/>
-		<!-- <ThemeSwitcher/> -->
-		<!-- <Nvim/> -->
-    
-    <div class="wrap">
-      <h1 class="center">{t('homePage.h1')}</h1>
-      <p class="muted center">{t('homePage.h1.p')}</p>
-    </div>
-
-    <div class="wrap center">
-      <GlassButton as="a" href='/projects' text={t('homePage.GlassButtonText')}/>
-    </div>
-
-    <div class="wrap">
-      <h2>{t('homePage.About')}</h2>
-      <p class="soft-p">
-        {t('homePage.About.p1')}
-        {t('homePage.About.p2')} <br><br>
-        {t('homePage.About.p3')} <br><br><br><br>
-        {t('homePage.About.p4')}
-      </p>
-    </div>
-
-    <!-- <div class="wrap">
-      <button id="test">Test</button>
-    </div> -->
-    <!-- <Contact/> -->
-     <div class="spacer"></div>
-    <Footer/>
-	</body>
-</html>
+</BaseLayout>
