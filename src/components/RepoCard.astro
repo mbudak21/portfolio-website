@@ -1,0 +1,152 @@
+---
+// src/components/RepoCard.astro
+
+// Repodan gelecek verinin tipini belirliyoruz
+export interface Props {
+  name: string;
+  description: string;
+  href: string;         // GitHub linki
+  language?: string;    // Opsiyonel: Proje dili
+  stars?: number;       // Opsiyonel: Yıldız sayısı
+  homepageUrl?: string; // Opsiyonel: Canlı site linki
+}
+
+const { name, description, href, language, stars, homepageUrl } = Astro.props;
+
+// SVG ikonları (harici kütüphaneye gerek duymadan)
+const ICONS = {
+  repo: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>`,
+  star: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>`,
+  external: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
+};
+---
+
+<a href={href} target="_blank" rel="noopener noreferrer" class="card-link">
+  <article class="card">
+    <header class="card-header">
+      <div class="repo-name">
+        <Fragment set:html={ICONS.repo} />
+        <h3>{name}</h3>
+      </div>
+      {homepageUrl && (
+        <a href={homepageUrl} target="_blank" rel="noopener noreferrer" class="external-link" aria-label="Canlı siteyi aç">
+          <Fragment set:html={ICONS.external} />
+        </a>
+      )}
+    </header>
+
+    <p class="description">{description}</p>
+
+    <footer class="card-footer">
+      {language && (
+        <div class="footer-item">
+          <span class="language-dot"></span>
+          <span>{language}</span>
+        </div>
+      )}
+      {stars !== undefined && (
+        <div class="footer-item">
+          <Fragment set:html={ICONS.star} />
+          <span>{stars}</span>
+        </div>
+      )}
+    </footer>
+  </article>
+</a>
+
+<style>
+  .card-link {
+    text-decoration: none;
+    color: var(--font-color);
+    display: block; /* Kartın tüm alanını kaplaması için */
+    height: 100%; /* Grid layout içinde eşit yükseklik için */
+  }
+
+  .card {
+    /* global.css'den gelen glassmorphism stili */
+    background: var(--glass-background); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari desteği */
+
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    height: 100%; /* Link'ten gelen yüksekliği doldur */
+    
+    /* İçeriği düzenlemek için flex */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Başlık üstte, footer altta */
+
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .repo-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* İkon ve başlık arası boşluk */
+  }
+
+  .repo-name h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--heading-color);
+  }
+
+  .external-link {
+    color: var(--secondary-color);
+    transition: color 0.2s ease;
+  }
+  .external-link:hover {
+    color: var(--primary-color);
+  }
+
+  .description {
+    font-size: 0.95rem;
+    color: var(--font-color);
+    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    /* Kartlar arası hizalama için en önemli kısım */
+    flex-grow: 1; 
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem; /* Dil ve yıldız arası boşluk */
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+  }
+
+  .footer-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .language-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--primary-color); /* Ana dil rengi olarak */
+  }
+
+  /* Footer ikonlarının rengini ayarla */
+  .footer-item svg {
+    stroke: var(--secondary-color);
+  }
+</style>

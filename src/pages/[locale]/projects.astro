@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RepoCard from '../../components/RepoCard.astro';
+import GlassButton from "../../components/Glass-btn.astro";
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+export async function getStaticPaths() {
+  return [
+    { params: { locale: 'en' } },
+    { params: { locale: 'tr' } },
+    { params: { locale: 'ru' } },
+    { params: { locale: 'zh' } },
+  ];
+}
+
+const pageTitle = t('pageTitle')
+// Örnek veriler (Bunları GitHub API'den çekebilirsiniz)
+const myRepos = [
+  {
+    name: "astro-portfolio",
+    description: "Astro ve Tailwind CSS ile oluşturulmuş kişisel portföy sitem.",
+    href: "https://github.com/username/astro-portfolio",
+    language: "TypeScript",
+    stars: 120,
+    homepageUrl: "https://ornek-site.com"
+  },
+  {
+    name: "dotfiles",
+    description: "Kişisel geliştirme ortamı yapılandırma dosyalarım (Neovim, Zsh, vb.)",
+    href: "https://github.com/username/dotfiles",
+    language: "Lua",
+    stars: 45
+  },
+  {
+    name: "blog-backend",
+    description: "Go (Gin) ile yazılmış yüksek performanslı blog API servisi.",
+    href: "https://github.com/username/blog-backend",
+    language: "Go",
+    stars: 88,
+    homepageUrl: "https://api.ornek-site.com/docs"
+  },
+  // ...diğer projeleriniz
+];
+---
+
+<BaseLayout pageTitle={pageTitle} lang={lang}>
+  <div class="wrap"> <h1>Projelerim</h1>
+    <p class="soft-p muted">
+      GitHub üzerinde geliştirdiğim açık kaynaklı projelerim ve çalışmalarım.
+    </p>
+
+    <div class="repo-grid">
+      {myRepos.map(repo => (
+        <RepoCard
+          name={repo.name}
+          description={repo.description}
+          href={repo.href}
+          language={repo.language}
+          stars={repo.stars}
+          homepageUrl={repo.homepageUrl}
+        />
+      ))}
+    </div>
+
+  </div>
+</BaseLayout>
+<style>
+  .repo-grid {
+    display: grid;
+    /* Kartların responsive (duyarlı) olmasını sağlar */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; /* Kartlar arası boşluk */
+    margin-top: 2rem;
+  }
+</style>
