@@ -14,6 +14,23 @@ const links = [
 ];
 ---
 
+<nav class="nav glass" aria-label="Main">
+  <a class="brand" href="/">mbudak21.com</a>
+
+  <div class="links" role="menubar">
+    {links.map(l => <a class="link" role="menuitem" href={l.href}>{l.label}</a>)}
+  </div>
+
+  <button class="burger" aria-label="Menu" aria-expanded="false">
+    <span class="bar"></span>
+  </button>
+</nav>
+
+<div class="glass drawer" id="drawer">
+  {links.map(l => <a href={l.href}>{l.label}</a>)}
+</div>
+
+
 <style>
   :root { --nav-h: 56px; }
 
@@ -23,20 +40,13 @@ const links = [
     align-items: center;
     justify-content: space-between;
 
-    /* Glass effect */
-    background: var(--glass-background); /* translucent dark */
-    backdrop-filter: blur(12px) saturate(1.8);
-    -webkit-backdrop-filter: blur(12px) saturate(1.8);
-
     color: var(--font-color);
     padding: 0 1rem;
     position: sticky;
     top: 0;
     border-bottom: 1px solid var(--border-color);
 
-    /* Optional: subtle shadow for depth */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    z-index: 10; /* ensure it sits above the canvas */
+    z-index: 10;
   }
 
   .brand {
@@ -77,15 +87,35 @@ const links = [
   .burger[aria-expanded="true"] .bar::before { opacity: 0; }
   .burger[aria-expanded="true"] .bar::after  { transform: rotate(-90deg); }
 
-  /* mobile drawer */
+/* mobile drawer */
   .drawer {
-    position: fixed; inset: var(--nav-h) 0 auto 0; background: var(--bg-color);
+    position: fixed; 
+    inset: var(--nav-h) 0 auto 0; 
+
+    width: 90%;
+    margin-inline: auto;
+    
+    background: var(--glass-background); 
+    backdrop-filter: blur(12px) saturate(1.8);
+    -webkit-backdrop-filter: blur(12px) saturate(1.8);
     border-top: 1px solid var(--border-color);
+    
     display: grid; gap: .4rem; padding: .8rem 1rem;
-    max-height: 0; overflow: clip; opacity: 0;
+    
+    max-height: 0; 
+    overflow: hidden;
+    opacity: 0;
+    
+    z-index: 9; 
+
     transition: max-height .3s ease, opacity .2s ease;
   }
-  .drawer.open { max-height: 50vh; opacity: 1; }
+
+  .drawer.open {
+    max-height: 50vh; 
+    opacity: 1; 
+  }
+  
   .drawer a { padding: .6rem 0; text-decoration: none; color: var(--font-color); }
 
   /* desktop */
@@ -100,21 +130,6 @@ const links = [
   }
 </style>
 
-<nav class="nav" aria-label="Main">
-  <a class="brand" href="/">mbudak21.com</a>
-
-  <div class="links" role="menubar">
-    {links.map(l => <a class="link" role="menuitem" href={l.href}>{l.label}</a>)}
-  </div>
-
-  <button class="burger" aria-label="Menu" aria-expanded="false">
-    <span class="bar"></span>
-  </button>
-</nav>
-
-<div class="drawer" id="drawer">
-  {links.map(l => <a href={l.href}>{l.label}</a>)}
-</div>
 
 <script is:inline>
   const btn = document.querySelector('.burger');
