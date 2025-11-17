@@ -31,6 +31,18 @@ export const ui = {
     'wipPage.title': '~/wip',
     'wipPage.text': 'WORK IN PROGRESS',
     'wipPage.subtitle': 'This page is currently under construction. Please check back later for updates!',
+  
+    'projects.title': 'Projects',
+    'projects.desc': 'My open-source projects and work. Feel free to contribute :)',
+    'projects.portfolio-website.desc': 'The code of the website you are currently viewing. Built using pure JS and Astro.',
+    'projects.OpenGL-glsl.desc': 'A C++ project with various shader implementations in GLSL and a graphics pipeline implementation in OpenGL. Built from the ground up.',
+    'projects.RayTracer.desc': 'C++ raytracer which uses no external libraries to implement multi-threaded rendering, recursive reflections, refractions, anti-aliasing, and a custom math library. Supports both Phong and Gouraud shading',
+    'projects.perlin.desc': 'Creates a flowfield using OpenSimplex noise and visualizes it in 1D & 2D.',
+    'projects.dotfiles.desc': 'Minimal configuration for i3wm and i3blocks, with customized i3blocks modules tuned to my liking.',
+    'projects.spring.desc': 'A minimal SpringBoot based API for tournament matchmaking. Everything is dockerized, including the DB.',
+    'projects.jester.desc': 'Lets users manipulate YouTube, Amazon, and other e-commerce ads by simulating fake browsing behavior.',
+    'projects.other.title': 'Other Projects',
+    'projects.other.desc': 'You can view my other projects on my GitHub!',
   },
 tr: {
     'pageTitle': '~/portfolyo',
@@ -50,31 +62,45 @@ tr: {
     'navbar.home': 'Ana Sayfa',
     'navbar.projects': 'Projeler',
     'navbar.blog': 'Blog',
-    'navbar.contact': 'İletişim'
+    'navbar.contact': 'İletişim',
+
+    'wipPage.title': '~/wip',
+    'wipPage.text': 'WORK IN PROGRESS',
+    'wipPage.subtitle': 'Bu sayfa yapım aşamasına, lütfen daha sonra gelin!',
+  
+    'projects.title': 'Projelerim',
+    'projects.desc': 'GitHub üzerinde geliştirdiğim açık kaynaklı projelerim ve çalışmalarım.',
+    'projects.portfolio-website.desc': '',
+    'projects.OpenGL-glsl.desc': '',
+    'projects.RayTracer.desc': '',
+    'projects.perlin.desc': '',
+    'projects.dotfiles.desc': '',
+    'projects.spring.desc': '',
+    'projects.jester.desc': '',
+    'projects.other.title': '',
+    'projects.other.desc': '',
   },
 
 ru: {
-    'pageTitle': '~/портфолио', // Portfolyo
-    'homePage.h1': 'Чистый код. Системы. Графика.', // Clean Code. Systems. Graphics.
-    'homePage.h1.p': 'Я создаю быстрое, минималистичное ПО и иногда красивые пиксели.', // I build fast, minimal software and occasional pretty pixels.
-    'homePage.GlassButtonText': 'Посмотреть проекты', // View Projects
-    'homePage.About': 'Обо мне', // About
+    'pageTitle': '~/портфолио',
+    'homePage.h1': 'Чистый код. Системы. Графика.',
+    'homePage.h1.p': 'Я создаю быстрое, минималистичное ПО и иногда красивые пиксели.',
+    'homePage.GlassButtonText': 'Посмотреть проекты',
+    'homePage.About': 'Обо мне', 
     
-    /* === ÖNERİLEN DEĞİŞİKLİK BURADA BAŞLIYOR === */
     'homePage.About.p1': 'Время от времени я задаюсь вопросом: мне вообще нравится программировать, или я просто ненавижу не понимать вещи, которыми никогда не воспользуюсь?',
     'homePage.About.p2': 'А потом я трачу четыре часа, пытаясь понять, почему слетела моя последняя конфигурация Wayland.',
     'homePage.About.p3': 'Может, это и есть страсть. А может, травма мозга. Трудно сказать.',
     'homePage.About.p4': '',
-    /* === ÖNERİLEN DEĞİŞİKLİK BURADA BİTİYOR === */
 
     'footer.note.before': '© ' + new Date().getFullYear().toString() + ' М. Мурат Будак – Этот сайт использует',
     'footer.note.link': 'Matomo',
     'footer.note.after': ', аналитическую платформу с открытым исходным кодом на моем сервере.',
 
-    'navbar.home': 'Главная', // Ana Sayfa
-    'navbar.projects': 'Проекты', // Projeler
-    'navbar.blog': 'Блог', // Blog
-    'navbar.contact': 'Контакты' // İletişim
+    'navbar.home': 'Главная',
+    'navbar.projects': 'Проекты',
+    'navbar.blog': 'Блог',
+    'navbar.contact': 'Контакты'
   },
 zh: {
   'pageTitle': '~/作品集', // '~/portfolio'
