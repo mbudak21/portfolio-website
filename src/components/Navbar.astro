@@ -27,7 +27,7 @@ const links = [
 </nav>
 
 <div class="glass drawer" id="drawer">
-  {links.map(l => <a href={l.href}>{l.label}</a>)}
+  {links.map(l => <a href={l.href} class="link">{l.label}</a>)}
 </div>
 
 
@@ -45,7 +45,6 @@ const links = [
     position: sticky;
     top: 0;
     border-bottom: 1px solid var(--border-color);
-
     z-index: 10;
   }
 
@@ -99,6 +98,7 @@ const links = [
     backdrop-filter: blur(12px) saturate(1.8);
     -webkit-backdrop-filter: blur(12px) saturate(1.8);
     border-top: 1px solid var(--border-color);
+    border-radius: 0 0 1rem 1rem;
     
     display: grid; gap: .4rem; padding: .8rem 1rem;
     
