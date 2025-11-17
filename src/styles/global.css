@@ -50,9 +50,20 @@ body {
   font-size: 18px;
 }
 
+svg {
+  flex-shrink: 0;
+}
+
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
+}
+
+.glass {
+  background: var(--glass-background); /* translucent dark */
+  backdrop-filter: blur(12px) saturate(1.8);
+  -webkit-backdrop-filter: blur(12px) saturate(1.8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .wrap { 
