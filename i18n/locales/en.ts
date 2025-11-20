@@ -1,0 +1,36 @@
+export const en = {
+  'pageTitle': '~/portfolio',
+  'homePage.h1': 'Clean Code. Systems. Graphics.',
+  'homePage.h1.p': 'I build fast, minimal software and occasional pretty pixels.',
+  'homePage.GlassButtonText': 'View Projects',
+  'homePage.About': 'About',
+  'homePage.About.p1': 'Every now and then I wonder if I even like programming, or if I just hate not understanding things I’ll never use.',
+  'homePage.About.p2': 'Then I spend four hours debugging why my latest wayland config got nuked.',
+  'homePage.About.p3': 'Maybe that’s what passion is. Or maybe it’s brain damage. Hard to say.',
+  'homePage.About.p4': '',
+
+  'footer.note.before': '© ' + new Date().getFullYear().toString() + ' M. Murat Budak – This website uses',
+  'footer.note.link': 'Matomo',
+  'footer.note.after': ', a self-hosted analytics platform.',
+
+  'navbar.home': 'Home',
+  'navbar.projects': 'Projects',
+  'navbar.blog': 'Blog',
+  'navbar.contact': 'Contact',
+
+  'wipPage.title': '~/wip',
+  'wipPage.text': 'WORK IN PROGRESS',
+  'wipPage.subtitle': 'This page is currently under construction. Please check back later for updates!',
+
+  'projects.title': 'Projects',
+  'projects.desc': 'My open-source projects and work. Feel free to contribute :)',
+  'projects.portfolio-website.desc': 'The code of the website you are currently viewing. Built using pure JS and Astro.',
+  'projects.OpenGL-glsl.desc': 'A C++ project with various shader implementations in GLSL and a graphics pipeline implementation in OpenGL. Built from the ground up.',
+  'projects.RayTracer.desc': 'C++ raytracer which uses no external libraries to implement multi-threaded rendering, recursive reflections, refractions, anti-aliasing, and a custom math library. Supports both Phong and Gouraud shading',
+  'projects.perlin.desc': 'Creates a flowfield using OpenSimplex noise and visualizes it in 1D & 2D.',
+  'projects.dotfiles.desc': 'Minimal configuration for i3wm and i3blocks, with customized i3blocks modules tuned to my liking.',
+  'projects.spring.desc': 'A minimal SpringBoot based API for tournament matchmaking. Everything is dockerized, including the DB.',
+  'projects.jester.desc': 'Lets users manipulate YouTube, Amazon, and other e-commerce ads by simulating fake browsing behavior.',
+  'projects.other.title': 'Other Projects',
+  'projects.other.desc': 'You can view my other projects on my GitHub!',
+} as const;
