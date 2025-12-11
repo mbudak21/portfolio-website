@@ -9,7 +9,7 @@ export const en = {
   'homePage.About.p3': 'Maybe that’s what passion is. Or maybe it’s brain damage. Hard to say.',
   'homePage.About.p4': '',
 
-  'footer.note.before': '© ' + new Date().getFullYear().toString() + ' M. Murat Budak – This website uses',
+  'footer.note.before': 'This website uses',
   'footer.note.link': 'Matomo',
   'footer.note.after': ', a self-hosted analytics platform.',
 

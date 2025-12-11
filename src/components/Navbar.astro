@@ -6,6 +6,12 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+const domains = [
+  { href: 'mbudak21.com/en'},
+  { href: 'mbudak21.com/tr'},
+  { href: 'mbudak21.com/ru'}
+]
+
 const links = [
   { href: `/${lang}/`, label: t('navbar.home') },
   { href: `/${lang}/projects`, label: t('navbar.projects') },
@@ -15,7 +21,15 @@ const links = [
 ---
 
 <nav class="nav glass" aria-label="Main">
-  <a class="brand" href="/">mbudak21.com</a>
+
+  <!-- <a class="dropdown brand" href="/">mbudak21.com</a> -->
+   <div class="domain-div">
+    <button class="domain" aria-label="Domains" aria-expanded="false"> mbudak21.com
+      <span class="domains"></span>
+    </button>
+   </div>
+
+
 
   <div class="links" role="menubar">
     {links.map(l => <a class="link" role="menuitem" href={l.href}>{l.label}</a>)}
@@ -48,6 +62,64 @@ const links = [
     z-index: 10;
   }
 
+  .domain-div {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .domain {
+    all: unset;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 700; 
+    letter-spacing: .4px;
+
+    padding: 0.3rem 1.1rem 0.3rem 0.5rem;
+
+    color: var(--heading-color);
+    background-color: transparent;
+
+    border-radius: 10px;
+    border-width: 0px;
+
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .domain:active {
+    box-shadow: none;
+    border-color: transparent;
+    background-color: inherit;
+  }
+  .domain:hover {
+    cursor: pointer;
+    border-color: #aaaaaa6b;
+    border-color: var(--font-color); 
+    background-color: rgba(127, 127, 127, 0.08);
+  }
+  .domain::after {
+    content: "";
+    position:absolute;
+
+    top: 5px;
+    right: 7px;
+    width: 5px;
+    height: 5px;
+    border-right: 1.5px solid var(--font-color);
+    border-bottom: 1.5px solid var(--font-color);
+
+    transform: rotate(45deg);
+
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+  }
+  .domain:hover::after {
+    opacity: 1;
+  }
+
   .brand {
     font-weight: 700; letter-spacing: .4px;
     color: var(--heading-color); text-decoration: none;
@@ -60,6 +132,7 @@ const links = [
   .link {
     position: relative; text-decoration: none; color: var(--font-color);
     padding: .4rem .2rem; font-weight: 600;
+    max-width: 100px;
   }
   /* animated underline */
   .link::after {

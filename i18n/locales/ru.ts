@@ -12,7 +12,7 @@ export const ru: Record<keyof typeof en, string> = {
   'homePage.About.p3': 'Может, это и есть страсть. А может, травма мозга. Трудно сказать.',
   'homePage.About.p4': '',
 
-  'footer.note.before': '© ' + new Date().getFullYear().toString() + ' М. Мурат Будак – Этот сайт использует',
+  'footer.note.before': 'Этот сайт использует',
   'footer.note.link': 'Matomo',
   'footer.note.after': ', аналитическую платформу с открытым исходным кодом на моем сервере.',
 

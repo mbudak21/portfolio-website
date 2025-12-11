@@ -11,7 +11,7 @@ export const zh: Record<keyof typeof en, string> = {
   'homePage.About.p3': '也许这就是热情吧。又或者，是脑子坏了。真不好说。',
   'homePage.About.p4': '',
 
-  'footer.note.before': '© ' + new Date().getFullYear().toString() + ' M. Murat Budak – 本网站使用的是',
+  'footer.note.before': '本网站使用的是',
   'footer.note.link': 'Matomo',
   'footer.note.after': '，一个自托管的开源分析平台。',
 

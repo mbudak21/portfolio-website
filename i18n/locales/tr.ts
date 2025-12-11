@@ -11,7 +11,7 @@ export const tr: Record<keyof typeof en, string> = {
   'homePage.About.p3': 'Sanırım buna tutku denilebilir, ya da belki de beyin hasarıdır. Söylemesi güç.',
   'homePage.About.p4': '',
 
-  'footer.note.before': '© ' + new Date().getFullYear().toString() + ' M. Murat Budak – Bu web sitesi kendi sunucumda çalışan açık kaynaklı analiz platformu',
+  'footer.note.before': 'Bu web sitesi kendi sunucumda çalışan açık kaynaklı analiz platformu',
   'footer.note.link': 'Matomo',
   'footer.note.after': '’yu kullanmaktadır.',
 

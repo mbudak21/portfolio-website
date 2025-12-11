@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+export async function getStaticPaths() {
+  return [
+    { params: { locale: 'en' } },
+    { params: { locale: 'tr' } },
+    { params: { locale: 'ru' } },
+    { params: { locale: 'zh' } },
+  ];
+}
+const pageTitle = t('pageTitle')
+---
+
+<BaseLayout pageTitle={pageTitle} lang={lang}>
+</BaseLayout>

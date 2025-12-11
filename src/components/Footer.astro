@@ -23,7 +23,9 @@ const t = useTranslations(lang);
     </p>
     <p class="muted note">
       <!-- © {new Date().getFullYear()} M. Murat Budak - This website uses <a href="https://analytics.mbudak21.com" target="_blank" rel="noopener"> Matomo</a>, a self-hosted analytics platform. -->
+      {'© ' + new Date().getFullYear().toString() + ' M. Murat Budak - '} 
       {t('footer.note.before')} <a href="https://analytics.mbudak21.com" target="_blank" rel="noopener">{t('footer.note.link')}</a>{t('footer.note.after')}
+            
     </p>
   </div>
 </footer>
@@ -83,6 +85,7 @@ const t = useTranslations(lang);
     font-size: 0.85rem;
     letter-spacing: 0.5px;
     color: #666;
+    text-align: center;
   }
 
   /* Matomo Link */
