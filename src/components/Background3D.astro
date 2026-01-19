@@ -143,11 +143,6 @@ const {Canvas} = Astro.props;
 
   window.addEventListener('DOMContentLoaded', () => {
     const three = new ThreeRenderer('#bg-canvas');
-    // const btn = document.querySelector('#test');
-    // btn?.addEventListener('click', () => {
-    //   console.log('Click');
-    //   three.setSpeedx(1);
-    // });
     window.Background3D = {
       getSpeedx: () => three.getSpeedx(),
       setSpeedx: (spd: number) => three.setSpeedx(spd),

@@ -4,18 +4,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import GlassButton from "../../components/Glass-btn.astro";
 
 import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+import { getLocaleStaticPaths } from '../../../i18n/config';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-export async function getStaticPaths() {
-  return [
-    { params: { locale: 'en' } },
-    { params: { locale: 'tr' } },
-    { params: { locale: 'ru' } },
-    { params: { locale: 'zh' } },
-  ];
-}
+export const getStaticPaths = getLocaleStaticPaths;
 
 const pageTitle = t('pageTitle')
 ---
