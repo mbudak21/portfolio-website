@@ -1,16 +1,9 @@
 ---
-// Navbar.astro
 export interface Link { href: string; label: string }
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-const domains = [
-  { href: 'mbudak21.com/en'},
-  { href: 'mbudak21.com/tr'},
-  { href: 'mbudak21.com/ru'}
-]
 
 const links = [
   { href: `/${lang}/`, label: t('navbar.home') },
@@ -21,15 +14,11 @@ const links = [
 ---
 
 <nav class="nav glass" aria-label="Main">
-
-  <!-- <a class="dropdown brand" href="/">mbudak21.com</a> -->
    <div class="domain-div">
     <button class="domain" aria-label="Domains" aria-expanded="false"> mbudak21.com
       <span class="domains"></span>
     </button>
    </div>
-
-
 
   <div class="links" role="menubar">
     {links.map(l => <a class="link" role="menuitem" href={l.href}>{l.label}</a>)}
