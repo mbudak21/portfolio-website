@@ -56,7 +56,7 @@ const langColors: Record<string, string> = {
         </h3>
     </div>
     {homepageUrl && (
-      <a href={homepageUrl} target="_blank" rel="noopener noreferrer" class="external-link" aria-label="Canlı siteyi aç">
+      <a href={homepageUrl} target="_blank" rel="noopener noreferrer" class="external-link" aria-label="Open live site">
         <Fragment set:html={ICONS.external} />
       </a>
     )}
@@ -65,12 +65,6 @@ const langColors: Record<string, string> = {
   <p class="description">{description}</p>
 
   <footer class="card-footer">
-    <!-- {language && (
-      <div class="footer-item">
-        <span class="language-dot" style={`background-color: ${dotColor};`}></span>
-        <span>{language}</span>
-      </div>
-    )} -->
     {lang_arr.map((lang) => {
       const dotColor = langColors[lang] ? langColors[lang] : 'var(--primary-color, #ccc)';
       return (

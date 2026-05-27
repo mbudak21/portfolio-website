@@ -45,9 +45,16 @@ body {
   background-color: var(--bg-color);
   color: var(--font-color);
   max-width: 90%;
-  height: 40vh;
+  min-height: 100dvh;
   margin: 0 auto;
   font-size: 18px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 svg {
@@ -88,15 +95,8 @@ svg {
   
 }
 
-.spacer {
-  height: 100%;
-}
 
 h1 {
   font-size: 40px;
   letter-spacing: 0px;
-  border: #457d8b;
-  border-width: 2px;
-  border-radius: 1px;
-  border-color: #0066ff;
 }
