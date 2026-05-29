@@ -1,21 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-import GlassButton from "../../components/Glass-btn.astro";
+import GlassButton from "@components/ui/GlassButton.astro";
 
-import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
+import { getLangFromUrl, useTranslations, getStaticLocalePaths } from '@i18n/utils';
+
+export const getStaticPaths = getStaticLocalePaths;
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-export async function getStaticPaths() {
-  return [
-    { params: { locale: 'en' } },
-    { params: { locale: 'tr' } },
-    { params: { locale: 'ru' } },
-    { params: { locale: 'zh' } },
-  ];
-}
 
 const pageTitle = t('pageTitle')
 ---
@@ -28,7 +21,7 @@ const pageTitle = t('pageTitle')
   </div>
 
   <div class="wrap center">
-    <GlassButton as="a" 
+    <GlassButton as="a"
       href={`/${lang}/projects`}
       text={t('homePage.GlassButtonText')}
     />
@@ -36,10 +29,7 @@ const pageTitle = t('pageTitle')
   
   <div class="wrap">
     <h2>{t('homePage.About')}</h2>
-    <p class="soft-p">
-      {t('homePage.About.p1')}
-      {t('homePage.About.p2')} <br><br>
-      {t('homePage.About.p3')} <br><br><br><br>
-    </p>
+    <p class="soft-p">{t('homePage.About.p1')} {t('homePage.About.p2')}</p>
+    <p class="soft-p">{t('homePage.About.p3')}</p>
   </div>
 </BaseLayout>

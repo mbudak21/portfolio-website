@@ -4,12 +4,11 @@ export const tr: Record<keyof typeof en, string> = {
   'pageTitle': '~/portfolyo',
   'homePage.h1': 'Temiz Kod. Sistemler. Grafikler.',
   'homePage.h1.p': 'Hızlı, minimal yazılımlar ve ara sıra da güzel pikseller.',
-  'homePage.GlassButtonText': 'Projeleri Gör',
+  'homePage.GlassButtonText': '~/projeler',
   'homePage.About': 'Hakkımda',
   'homePage.About.p1': 'Ara sıra programlamayı gerçekten sevip sevmediğimi, yoksa sadece asla kullanmayacağım şeyleri anlamamaktan mı nefret ettiğimi sorguluyorum.',
   'homePage.About.p2': 'Sonra bir bakıyorum, son wayland yapılandırmamın neden patladığını ayıklamak için dört saat harcamışım.',
   'homePage.About.p3': 'Sanırım buna tutku denilebilir, ya da belki de beyin hasarıdır. Söylemesi güç.',
-  'homePage.About.p4': '',
 
   'footer.note.before': 'Bu web sitesi kendi sunucumda çalışan açık kaynaklı analiz platformu',
   'footer.note.link': 'Matomo',

@@ -1,0 +1,316 @@
+  <canvas id="bg-canvas" transition:persist="bg"></canvas>
+<style>
+  #bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: var(--bg-color);
+  }
+</style>
+
+<script>
+  // Plain-JS (no three.js) port of Background3D.astro.
+  // Renders the same spinning torus-knot wireframe on a 2D canvas:
+  //  - same geometry: TorusKnotGeometry(3, 0.45, tubular, radial, p=2, q=3)
+  //  - same auto-rotation on X/Y (speedx/speedy)
+  //  - drag-to-orbit (stand-in for OrbitControls)
+  //  - depth-based line opacity to fake the metallic/lit look
+
+  type Vec3 = { x: number; y: number; z: number };
+
+  // Knot/geometry params mirror the three.js version. Segment counts are
+  // lowered from the original (512/64) because a 2D canvas strokes every edge
+  // on the CPU; these values keep the same shape at 60fps.
+  const RADIUS = 3;
+  const TUBE = 0.45;
+  const TUBULAR_SEGMENTS = 256;
+  const RADIAL_SEGMENTS = 10;
+  const P = 2;
+  const Q = 3;
+
+  const CAMERA_DISTANCE = 7; // camera.position.z = -7 in the original
+  const FOV = 75;            // degrees, matches PerspectiveCamera
+
+  const NEAR = CAMERA_DISTANCE - RADIUS * 1.5 - TUBE;
+  const FAR = CAMERA_DISTANCE + RADIUS * 1.5 + TUBE;
+  const SPAN = FAR - NEAR || 1;
+
+  class VanillaRenderer {
+    private canvas!: HTMLCanvasElement;
+    private ctx!: CanvasRenderingContext2D;
+
+    // Base (un-rotated) vertices in local space, flattened [x,y,z, x,y,z, ...].
+    private base!: Float32Array;
+    // Edge list as index pairs into the vertex grid.
+    private edges!: Int32Array;
+    // Scratch buffer for projected screen coords + depth [sx,sy,camZ,...].
+    private proj!: Float32Array;
+
+    private focal = 0;
+    private halfW = 0;
+    private halfH = 0;
+
+    private rotX = 0;
+    private rotY = 0;
+    private speedx = 0.002;
+    private speedy = 0.002;
+
+    // Drag-to-orbit offsets applied on top of the auto-rotation.
+    private orbitX = 0;
+    private orbitY = 0;
+    private dragging = false;
+    private lastPX = 0;
+    private lastPY = 0;
+
+    private color = { r: 255, g: 255, b: 255 };
+
+    // FPS counter — logs the average frame rate to the console once a second.
+    private fpsFrames = 0;
+    private fpsLastLog = -1;
+
+    constructor(canvasSelector = '#bg-canvas') {
+      const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement | null;
+      if (!canvas) {
+        console.error(`Couldn't find canvas: ${canvasSelector}`);
+        return;
+      }
+      this.canvas = canvas;
+      this.ctx = canvas.getContext('2d')!;
+
+      const grid = this.buildGeometry();
+      this.base = grid.vertices;
+      this.edges = grid.edges;
+      this.proj = new Float32Array((this.base.length / 3) * 3);
+
+      this.onResize();
+      window.addEventListener('resize', () => this.onResize());
+      this.addOrbitControls();
+
+      this.animate = this.animate.bind(this);
+      this.animate();
+    }
+
+    // Parametric torus-knot, identical to three.js TorusKnotGeometry.
+    private positionOnCurve(u: number, out: Vec3) {
+      const cu = Math.cos(u);
+      const su = Math.sin(u);
+      const quOverP = (Q / P) * u;
+      const cs = Math.cos(quOverP);
+      out.x = RADIUS * (2 + cs) * 0.5 * cu;
+      out.y = RADIUS * (2 + cs) * 0.5 * su;
+      out.z = RADIUS * Math.sin(quOverP) * 0.5;
+    }
+
+    private buildGeometry() {
+      const vertsPerRow = RADIAL_SEGMENTS + 1;
+      const vertices = new Float32Array((TUBULAR_SEGMENTS + 1) * vertsPerRow * 3);
+
+      const P1: Vec3 = { x: 0, y: 0, z: 0 };
+      const P2: Vec3 = { x: 0, y: 0, z: 0 };
+
+      let vi = 0;
+      for (let i = 0; i <= TUBULAR_SEGMENTS; i++) {
+        const u = (i / TUBULAR_SEGMENTS) * P * Math.PI * 2;
+        this.positionOnCurve(u, P1);
+        this.positionOnCurve(u + 0.01, P2);
+
+        // Frenet-ish frame: T = P2-P1, N from (P2+P1), B = T x N.
+        const Tx = P2.x - P1.x, Ty = P2.y - P1.y, Tz = P2.z - P1.z;
+        let Nx = P2.x + P1.x, Ny = P2.y + P1.y, Nz = P2.z + P1.z;
+        // B = T x N
+        let Bx = Ty * Nz - Tz * Ny;
+        let By = Tz * Nx - Tx * Nz;
+        let Bz = Tx * Ny - Ty * Nx;
+        // N = B x T
+        Nx = By * Tz - Bz * Ty;
+        Ny = Bz * Tx - Bx * Tz;
+        Nz = Bx * Ty - By * Tx;
+        // normalize N and B
+        const nLen = Math.hypot(Nx, Ny, Nz) || 1;
+        Nx /= nLen; Ny /= nLen; Nz /= nLen;
+        const bLen = Math.hypot(Bx, By, Bz) || 1;
+        Bx /= bLen; By /= bLen; Bz /= bLen;
+
+        for (let j = 0; j <= RADIAL_SEGMENTS; j++) {
+          const v = (j / RADIAL_SEGMENTS) * Math.PI * 2;
+          const cx = -TUBE * Math.cos(v);
+          const cy = TUBE * Math.sin(v);
+          vertices[vi++] = P1.x + (cx * Nx + cy * Bx);
+          vertices[vi++] = P1.y + (cx * Ny + cy * By);
+          vertices[vi++] = P1.z + (cx * Nz + cy * Bz);
+        }
+      }
+
+      // Wireframe edges: ring (around the tube) + longitudinal (along the knot).
+      const edges: number[] = [];
+      const idx = (i: number, j: number) => i * vertsPerRow + j;
+      for (let i = 0; i <= TUBULAR_SEGMENTS; i++) {
+        for (let j = 0; j < RADIAL_SEGMENTS; j++) {
+          edges.push(idx(i, j), idx(i, j + 1)); // around the tube
+        }
+        if (i < TUBULAR_SEGMENTS) {
+          for (let j = 0; j <= RADIAL_SEGMENTS; j++) {
+            edges.push(idx(i, j), idx(i + 1, j)); // along the curve
+          }
+        }
+      }
+
+      return { vertices, edges: Int32Array.from(edges) };
+    }
+
+    private addOrbitControls() {
+      const onDown = (px: number, py: number) => {
+        this.dragging = true;
+        this.lastPX = px;
+        this.lastPY = py;
+      };
+      const onMove = (px: number, py: number) => {
+        if (!this.dragging) return;
+        this.orbitY += (px - this.lastPX) * 0.005;
+        this.orbitX += (py - this.lastPY) * 0.005;
+        this.lastPX = px;
+        this.lastPY = py;
+      };
+      const onUp = () => { this.dragging = false; };
+
+      this.canvas.addEventListener('pointerdown', (e) => onDown(e.clientX, e.clientY));
+      window.addEventListener('pointermove', (e) => onMove(e.clientX, e.clientY));
+      window.addEventListener('pointerup', onUp);
+    }
+
+    private project() {
+      const cx = Math.cos(this.rotX + this.orbitX), sx = Math.sin(this.rotX + this.orbitX);
+      const cy = Math.cos(this.rotY + this.orbitY), sy = Math.sin(this.rotY + this.orbitY);
+
+      const focal = this.focal;
+      const halfW = this.halfW;
+      const halfH = this.halfH;
+
+      const base = this.base;
+      const proj = this.proj;
+      for (let i = 0, p = 0; i < base.length; i += 3, p += 3) {
+        let x = base[i], y = base[i + 1], z = base[i + 2];
+
+        // rotate X
+        let y1 = y * cx - z * sx;
+        let z1 = y * sx + z * cx;
+        // rotate Y
+        let x2 = x * cy + z1 * sy;
+        let z2 = -x * sy + z1 * cy;
+
+        const camZ = z2 + CAMERA_DISTANCE; // distance in front of camera
+        const inv = focal / camZ;
+        proj[p] = halfW + x2 * inv;
+        proj[p + 1] = halfH - y1 * inv;
+        proj[p + 2] = camZ;
+      }
+    }
+
+    private render() {
+      const ctx = this.ctx;
+      const w = this.canvas.clientWidth;
+      const h = this.canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const proj = this.proj;
+      const edges = this.edges;
+
+      // Depth-bucket the edges so each opacity band is stroked in one pass.
+      // Nearer edges are brighter -> fakes the lit/metallic wireframe.
+      const BUCKETS = 6;
+
+      const paths: Path2D[] = [];
+      for (let b = 0; b < BUCKETS; b++) paths.push(new Path2D());
+
+      for (let e = 0; e < edges.length; e += 2) {
+        const a = edges[e] * 3;
+        const c = edges[e + 1] * 3;
+        const depth = (proj[a + 2] + proj[c + 2]) * 0.5;
+        let t = (depth - NEAR) / SPAN;
+        t = t < 0 ? 0 : t > 1 ? 1 : t;
+        let bucket = ((1 - t) * (BUCKETS - 1)) | 0;
+        if (bucket < 0) bucket = 0; else if (bucket >= BUCKETS) bucket = BUCKETS - 1;
+
+        const path = paths[bucket];
+        path.moveTo(proj[a], proj[a + 1]);
+        path.lineTo(proj[c], proj[c + 1]);
+      }
+
+      const { r, g, b } = this.color;
+      ctx.lineWidth = 1;
+      for (let bk = 0; bk < BUCKETS; bk++) {
+        const alpha = 0.12 + (bk / (BUCKETS - 1)) * 0.78; // 0.12 (far) .. 0.9 (near)
+        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        ctx.stroke(paths[bk]);
+      }
+    }
+
+    private animate(now: number = 0) {
+      requestAnimationFrame(this.animate);
+      this.rotX += this.speedx;
+      this.rotY += this.speedy;
+      this.project();
+      this.render();
+
+      // FPS: count frames and log the average each second.
+      if (this.fpsLastLog < 0) this.fpsLastLog = now;
+      this.fpsFrames++;
+      const elapsed = now - this.fpsLastLog;
+      if (elapsed >= 1000) {
+        const fps = (this.fpsFrames * 1000) / elapsed;
+        console.log(`Background3DVanilla FPS: ${fps.toFixed(1)}`);
+        this.fpsFrames = 0;
+        this.fpsLastLog = now;
+      }
+    }
+
+    onResize() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      this.canvas.width = Math.floor(w * dpr);
+      this.canvas.height = Math.floor(h * dpr);
+      this.canvas.style.width = w + 'px';
+      this.canvas.style.height = h + 'px';
+      this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      this.halfW = w / 2;
+      this.halfH = h / 2;
+      this.focal = (h / 2) / Math.tan((FOV * Math.PI) / 360);
+    }
+
+    // Getters & Setters — same surface as the three.js version.
+    getSpeedx() { return this.speedx; }
+    setSpeedx(spd: number) { this.speedx = spd; }
+    getSpeedy() { return this.speedy; }
+    setSpeedy(spd: number) { this.speedy = spd; }
+
+    setColor(hex: number | string) {
+      let n: number;
+      if (typeof hex === 'string') {
+        n = parseInt(hex.replace('#', ''), 16);
+      } else {
+        n = hex;
+      }
+      this.color = {
+        r: (n >> 16) & 0xff,
+        g: (n >> 8) & 0xff,
+        b: n & 0xff,
+      };
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const renderer = new VanillaRenderer('#bg-canvas');
+    (window as any).Background3D = {
+      getSpeedx: () => renderer.getSpeedx(),
+      setSpeedx: (spd: number) => renderer.setSpeedx(spd),
+      getSpeedy: () => renderer.getSpeedy(),
+      setSpeedy: (spd: number) => renderer.setSpeedy(spd),
+      setColor: (hex: number | string) => renderer.setColor(hex),
+    };
+  });
+</script>

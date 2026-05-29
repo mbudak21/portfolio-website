@@ -4,13 +4,12 @@ export const ru: Record<keyof typeof en, string> = {
   'pageTitle': '~/портфолио',
   'homePage.h1': 'Чистый код. Системы. Графика.',
   'homePage.h1.p': 'Я создаю быстрое, минималистичное ПО и иногда красивые пиксели.',
-  'homePage.GlassButtonText': 'Посмотреть проекты',
+  'homePage.GlassButtonText': '~/проекты',
   'homePage.About': 'Обо мне',
 
   'homePage.About.p1': 'Время от времени я задаюсь вопросом: мне вообще нравится программировать, или я просто ненавижу не понимать вещи, которыми никогда не воспользуюсь?',
   'homePage.About.p2': 'А потом я трачу четыре часа, пытаясь понять, почему слетела моя последняя конфигурация Wayland.',
   'homePage.About.p3': 'Может, это и есть страсть. А может, травма мозга. Трудно сказать.',
-  'homePage.About.p4': '',
 
   'footer.note.before': 'Этот сайт использует',
   'footer.note.link': 'Matomo',

@@ -1,6 +1,6 @@
 ---
 // Navbar.astro
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -155,10 +155,7 @@ const links = [
 
     width: 90%;
     margin-inline: auto;
-    
-    background: var(--glass-background); 
-    backdrop-filter: blur(12px) saturate(1.8);
-    -webkit-backdrop-filter: blur(12px) saturate(1.8);
+
     border-top: 1px solid var(--border-color);
     border-radius: 0 0 1rem 1rem;
     
@@ -193,17 +190,20 @@ const links = [
 </style>
 
 
-<script is:inline>
-  const btn = document.querySelector('.burger');
-  const drawer = document.getElementById('drawer');
-  btn?.addEventListener('click', () => {
-    const open = btn.getAttribute('aria-expanded') === 'true';
-    btn.setAttribute('aria-expanded', String(!open));
-    drawer?.classList.toggle('open', !open);
-  });
-  // close on route change (Astro SPA/partial hydration not needed here, safe default)
-  window.addEventListener('pageshow', () => {
-    btn?.setAttribute('aria-expanded', 'false');
-    drawer?.classList.remove('open');
-  });
+<script>
+  // Wire up the mobile drawer. With <ClientRouter /> the navbar DOM is swapped
+  // fresh on every navigation, so this must re-bind on each `astro:page-load`
+  // (which also fires on the initial load) rather than running just once.
+  function setupNav() {
+    const btn = document.querySelector('.burger');
+    const drawer = document.getElementById('drawer');
+    if (!btn || !drawer) return;
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      drawer.classList.toggle('open', !open);
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupNav);
 </script>

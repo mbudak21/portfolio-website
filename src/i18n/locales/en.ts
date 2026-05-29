@@ -2,12 +2,11 @@ export const en = {
   'pageTitle': '~/portfolio',
   'homePage.h1': 'Clean Code. Systems. Graphics.',
   'homePage.h1.p': 'I build fast, minimal software and occasional pretty pixels.',
-  'homePage.GlassButtonText': 'View Projects',
+  'homePage.GlassButtonText': '~/projects',
   'homePage.About': 'About',
   'homePage.About.p1': 'Every now and then I wonder if I even like programming, or if I just hate not understanding things I’ll never use.',
   'homePage.About.p2': 'Then I spend four hours debugging why my latest wayland config got nuked.',
   'homePage.About.p3': 'Maybe that’s what passion is. Or maybe it’s brain damage. Hard to say.',
-  'homePage.About.p4': '',
 
   'footer.note.before': 'This website uses',
   'footer.note.link': 'Matomo',

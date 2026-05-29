@@ -1,4 +1,6 @@
 ---
+import { langColors } from '@/data/languageColors';
+
 export interface Props {
   name: string;
   description: string;
@@ -17,31 +19,6 @@ const ICONS = {
   external: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>`,
 };
 
-// Github Colors
-const langColors: Record<string, string> = {
-  JavaScript: "#f1e05a",
-  TypeScript: "#3178c6",
-  Python: "#3572A5",
-  Vue: "#41b883",
-  Svelte: "#ff3e00",
-  Astro: "#ff5a03",
-  HTML: "#e34c26",
-  CSS: "#563d7c",
-  SCSS: "#c6538c",
-  Rust: "#dea584",
-  Go: "#00ADD8",
-  Java: "#b07219",
-  C: "#555555",
-  "C++": "#f34b7d",
-  "C#": "#178600",
-  PHP: "#4F5D95",
-  Ruby: "#701516",
-  Swift: "#F05138",
-  Kotlin: "#A97BFF",
-  Dart: "#00B4AB",
-  Lua: "#000080",
-  Shell: "#89e051"
-};
 ---
 
 <article class="card glass">

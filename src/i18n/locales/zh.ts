@@ -4,12 +4,11 @@ export const zh: Record<keyof typeof en, string> = {
   'pageTitle': '~/作品集',
   'homePage.h1': '简洁代码. 系统. 图形.',
   'homePage.h1.p': '我构建快速、极简的软件，偶尔也创造些漂亮的像素。',
-  'homePage.GlassButtonText': '查看项目',
+  'homePage.GlassButtonText': '~/项目',
   'homePage.About': '关于我',
   'homePage.About.p1': '我时不时会想，我到底是不是真的喜欢编程，还是说我只是讨厌搞不懂那些我永远也用不到的东西。',
   'homePage.About.p2': '然后我就会花四个小时去调试，为什么我最新的 Wayland 配置又崩了。',
   'homePage.About.p3': '也许这就是热情吧。又或者，是脑子坏了。真不好说。',
-  'homePage.About.p4': '',
 
   'footer.note.before': '本网站使用的是',
   'footer.note.link': 'Matomo',

@@ -1,14 +1,14 @@
 ---
-import GitHubIcon from '../../public/github.svg';
-import LinkedinIcon from '../../public/linkedin.svg';
-import MailIcon from '../../public/mail.svg';
-import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import GitHubIcon from '../../../public/github.svg';
+import LinkedinIcon from '../../../public/linkedin.svg';
+import MailIcon from '../../../public/mail.svg';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<footer class="footer">
+<footer class="footer glass">
   <div class="wrap">
     <p class="muted socials">
       <a href="https://github.com/mbudak21" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
@@ -34,24 +34,12 @@ const t = useTranslations(lang);
 
   .footer {
     height: var(--footer-h);
-    
-    padding: 2rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid var(--border-color);
-
-    background: var(--glass-background); /* translucent dark */
-    backdrop-filter: blur(12px) saturate(1.8);
-    -webkit-backdrop-filter: blur(12px) saturate(1.8);
-
-    color: var(--font-color);
     padding: 0 1rem;
-
-    border-bottom: 1px solid var(--border-color);
-
-    /* Optional: subtle shadow for depth */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border-top: 1px solid var(--border-color);
+    color: var(--font-color);
     z-index: 10; /* ensure it sits above the canvas */
   }
 
