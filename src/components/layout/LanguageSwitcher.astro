@@ -1,0 +1,94 @@
+---
+import { getLangFromUrl } from '@i18n/utils';
+import { languages } from '@i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const { pathname } = Astro.url;
+
+function localizedPath(target: string) {
+  const segs = pathname.split('/');
+  segs[1] = target;
+  return segs.join('/') || '/';
+}
+
+const options = Object.entries(languages) as [keyof typeof languages, string][];
+---
+
+<details class="lang">
+  <summary aria-label="Language">{lang.toUpperCase()}</summary>
+  <ul class="menu glass" role="menu">
+    {options.map(([code, label]) => (
+      <li role="none">
+        <a role="menuitem" href={localizedPath(code)} aria-current={code === lang ? 'true' : undefined}>
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</details>
+
+<style>
+  .lang {
+    position: relative;
+  }
+
+  .lang summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+
+    font-weight: 600;
+    color: var(--font-color);
+
+    padding: 0.3rem 1.4rem 0.3rem 0.7rem;
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+  }
+  .lang summary::-webkit-details-marker { display: none; }
+  .lang summary:hover { background-color: rgba(127, 127, 127, 0.08); }
+
+  .lang summary::after {
+    content: "";
+    position: absolute;
+    top: 0.65rem;
+    right: 0.7rem;
+    width: 5px;
+    height: 5px;
+    border-right: 1.5px solid var(--font-color);
+    border-bottom: 1.5px solid var(--font-color);
+    transform: rotate(45deg);
+    opacity: 0.5;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .lang[open] summary::after {
+    transform: rotate(-135deg);
+    opacity: 1;
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + 1.0rem);
+    right: 0;
+    min-width: 9rem;
+
+    list-style: none;
+    margin: 0;
+    padding: 0.3rem;
+
+    border: 1px solid var(--border-color);
+    border-radius: 0.8rem;
+    z-index: 11;
+  }
+
+  .menu a {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    color: var(--font-color);
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+  }
+  .menu a:hover { background-color: rgba(127, 127, 127, 0.08); }
+  .menu a[aria-current="true"] { color: var(--highlight-color); }
+</style>

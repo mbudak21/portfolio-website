@@ -10,30 +10,12 @@
   --heading-color: #ffffff;
   --highlight-color: #c8e1ff;
   --border-color: rgba(2, 1, 1, 0.15);
-  --glass-background: rgba(20, 20, 20, 0.35);
+  --glass-background: rgba(44, 43, 43, 0.35);
 
+  --navbar-rad: 1.9rem;
+  --footer-rad: 1.9rem;
+  --drawer-rad: 1.9rem;
 }
-[data-theme="dark"] {
-  --primary-color: #0066ff;
-  --secondary-color: #5a5a5a;
-  --accent-color: #717171;
-  --bg-color: #ffffff;
-  --surface-color: #f5f5f5;
-  --font-color: #1a1a1a;
-  --heading-color: #000000;
-  --border-color: #cccccc;
-}
-[data-theme="solarized-dark"] {
-  --primary-color: #268bd2;
-  --secondary-color: #2aa198;
-  --accent-color: #403b50;
-  --bg-color: #002b36;
-  --surface-color: #073642;
-  --font-color: #93a1a1;
-  --heading-color: #eee8d5;
-  --border-color: #586e75;
-}
-
 
 html {
   font-family: "Cascadia Code", Consolas, monospace;

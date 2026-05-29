@@ -1,6 +1,7 @@
 ---
 // Navbar.astro
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
+import LanguageSwitcher from '@components/layout/LanguageSwitcher.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -13,7 +14,7 @@ const links = [
 ];
 ---
 
-<nav class="nav glass" aria-label="Main">
+<nav class="nav" aria-label="Main">
 
    <div class="domain-div">
     <button class="domain" aria-label="Domains" aria-expanded="false"> mbudak21.com
@@ -24,9 +25,12 @@ const links = [
     {links.map(l => <a class="link" role="menuitem" href={l.href}>{l.label}</a>)}
   </div>
 
-  <button class="burger" aria-label="Menu" aria-expanded="false">
-    <span class="bar"></span>
-  </button>
+  <div class="actions">
+    <button class="burger" aria-label="Menu" aria-expanded="false">
+      <span class="bar"></span>
+    </button>
+    <LanguageSwitcher />
+  </div>
 </nav>
 
 <div class="glass drawer" id="drawer">
@@ -46,9 +50,27 @@ const links = [
     color: var(--font-color);
     padding: 0 1rem;
     position: sticky;
-    top: 0;
-    border-bottom: 1px solid var(--border-color);
+    top: 1rem;
+
+    max-width: 750px;
+    margin: 1rem auto 0;
+    width: calc(100% - 2rem);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--navbar-rad);
     z-index: 10;
+  }
+
+  .nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--navbar-rad);
+    background: var(--glass-background);
+    backdrop-filter: blur(12px) saturate(1.8);
+    -webkit-backdrop-filter: blur(12px) saturate(1.8);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
 
   .domain-div {
@@ -131,6 +153,12 @@ const links = [
   }
   .link:hover::after, .link:focus-visible::after { transform: scaleX(1); }
 
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
   /* hamburger */
   .burger {
     width: 34px; height: 28px; display: grid; place-items: center;
@@ -150,15 +178,16 @@ const links = [
 
 /* mobile drawer */
   .drawer {
-    position: fixed; 
-    inset: var(--nav-h) 0 auto 0; 
+    position: fixed;
+    inset: calc(var(--nav-h) + 1.5rem) 0 auto 0;
 
-    width: 90%;
+    max-width: 750px;
+    width: calc(90% - 2rem);
     margin-inline: auto;
 
-    border-top: 1px solid var(--border-color);
-    border-radius: 0 0 1rem 1rem;
-    
+    border: 1px solid var(--border-color);
+    border-radius: var(--drawer-rad);
+
     display: grid; gap: .4rem; padding: .8rem 1rem;
     
     max-height: 0; 

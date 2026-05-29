@@ -24,7 +24,7 @@
   // Knot/geometry params mirror the three.js version. Segment counts are
   // lowered from the original (512/64) because a 2D canvas strokes every edge
   // on the CPU; these values keep the same shape at 60fps.
-  const RADIUS = 3;
+  const RADIUS = 2;
   const TUBE = 0.45;
   const TUBULAR_SEGMENTS = 256;
   const RADIAL_SEGMENTS = 10;
@@ -240,7 +240,7 @@
       }
 
       const { r, g, b } = this.color;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 0.15;
       for (let bk = 0; bk < BUCKETS; bk++) {
         const alpha = 0.12 + (bk / (BUCKETS - 1)) * 0.78; // 0.12 (far) .. 0.9 (near)
         ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;

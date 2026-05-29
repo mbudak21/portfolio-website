@@ -30,7 +30,7 @@ const t = useTranslations(lang);
 </footer>
 
 <style>
-  :root { --footer-h: 150px; }
+  :root { --footer-h: 120px; }
 
   .footer {
     height: var(--footer-h);
@@ -38,16 +38,26 @@ const t = useTranslations(lang);
     justify-content: center;
     align-items: center;
     padding: 0 1rem;
-    border-top: 1px solid var(--border-color);
+
+    max-width: 750px;
+    margin: 0 auto 1rem;
+    width: calc(100% - 2rem);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--footer-rad);
     color: var(--font-color);
-    z-index: 10; /* ensure it sits above the canvas */
+    z-index: 10;
   }
 
   .wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.4rem;
+  }
+
+  .wrap p {
+    margin: 0;
   }
 
   .socials {
