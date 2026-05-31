@@ -32,4 +32,13 @@ export const en = {
   'projects.jester.desc': 'Lets users manipulate YouTube, Amazon, and other e-commerce ads by simulating fake browsing behavior.',
   'projects.other.title': 'Other Projects',
   'projects.other.desc': 'You can view my other projects on my GitHub!',
+
+  'blog.title': 'Blog',
+  'blog.desc': 'Thoughts, notes, and write-ups on the things I build.',
+  'blog.empty': 'No posts yet — check back soon.',
+
+  'contact.title': 'Contact',
+  'contact.desc': 'Get in touch, or grab my details as a vCard.',
+  'contact.download': 'Download vCard',
+  'contact.cv': 'Download CV',
 } as const;

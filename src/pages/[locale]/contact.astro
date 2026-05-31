@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import VCard from '@components/contact/VCard.astro';
+import { getLangFromUrl, useTranslations, getStaticLocalePaths } from '@i18n/utils';
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout pageTitle={t('contact.title')} lang={lang}>
+  <div class="contact-wrap">
+    <VCard downloadLabel={t('contact.download')} cvLabel={t('contact.cv')} />
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-wrap {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+</style>

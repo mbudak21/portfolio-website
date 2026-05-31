@@ -32,3 +32,19 @@ export function useTranslations(lang: keyof typeof ui) {
     return text || key;
   }
 }
+
+const dateLocales: Record<string, string> = {
+  en: 'en-US',
+  tr: 'tr-TR',
+  ru: 'ru-RU',
+  zh: 'zh-CN',
+};
+
+export function formatDate(date: Date, lang: string) {
+  const locale = dateLocales[lang] ?? 'en-US';
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+}

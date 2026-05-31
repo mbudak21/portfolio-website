@@ -36,4 +36,13 @@ export const ru: Record<keyof typeof en, string> = {
   'projects.jester.desc': 'Позволяет манипулировать рекламой на YouTube, Amazon и других площадках путём имитации фальшивой активности пользователя.',
   'projects.other.title': 'Другие проекты',
   'projects.other.desc': 'Остальные мои проекты можно найти в моем профиле на GitHub!',
+
+  'blog.title': '',
+  'blog.desc': '',
+  'blog.empty': '',
+
+  'contact.title': '',
+  'contact.desc': '',
+  'contact.download': '',
+  'contact.cv': '',
 };

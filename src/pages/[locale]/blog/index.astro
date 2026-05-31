@@ -1,0 +1,41 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PostCard from '@components/blog/PostCard.astro';
+import { getLangFromUrl, useTranslations, getStaticLocalePaths } from '@i18n/utils';
+import { getPosts } from '@/lib/blog';
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const posts = await getPosts(lang);
+---
+
+<BaseLayout pageTitle={t('blog.title')} lang={lang}>
+  <div class="wrap">
+    <h1>{t('blog.title')}</h1>
+    <p class="soft-p muted">{t('blog.desc')}</p>
+
+    {posts.length === 0 ? (
+      <p class="muted empty">{t('blog.empty')}</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li><PostCard post={post} lang={lang} /></li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+
+  .empty {
+    margin-top: 2rem;
+  }
+</style>

@@ -36,4 +36,13 @@ export const zh: Record<keyof typeof en, string> = {
   'projects.jester.desc': '通过模拟虚假浏览行为，让用户以此操控/混淆 YouTube、Amazon 及其他电商平台的广告算法。',
   'projects.other.title': '其他项目',
   'projects.other.desc': '你可以在我的 GitHub 主页上查看我的其他项目！',
+
+  'blog.title': '',
+  'blog.desc': '',
+  'blog.empty': '',
+
+  'contact.title': '',
+  'contact.desc': '',
+  'contact.download': '',
+  'contact.cv': '',
 };

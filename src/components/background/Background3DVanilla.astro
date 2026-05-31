@@ -38,6 +38,9 @@
   const FAR = CAMERA_DISTANCE + RADIUS * 1.5 + TUBE;
   const SPAN = FAR - NEAR || 1;
 
+  const TARGET_FPS = 30;
+  const FRAME_INTERVAL = 1000 / TARGET_FPS;
+
   class VanillaRenderer {
     private canvas!: HTMLCanvasElement;
     private ctx!: CanvasRenderingContext2D;
@@ -70,6 +73,7 @@
     // FPS counter — logs the average frame rate to the console once a second.
     private fpsFrames = 0;
     private fpsLastLog = -1;
+    private lastFrame = -1;
 
     constructor(canvasSelector = '#bg-canvas') {
       const canvas = document.querySelector(canvasSelector) as HTMLCanvasElement | null;
@@ -250,6 +254,11 @@
 
     private animate(now: number = 0) {
       requestAnimationFrame(this.animate);
+
+      if (this.lastFrame < 0) this.lastFrame = now;
+      if (now - this.lastFrame < FRAME_INTERVAL) return;
+      this.lastFrame = now - ((now - this.lastFrame) % FRAME_INTERVAL);
+
       this.rotX += this.speedx;
       this.rotY += this.speedy;
       this.project();

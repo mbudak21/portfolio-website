@@ -2,6 +2,7 @@
 // Navbar.astro
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
 import LanguageSwitcher from '@components/layout/LanguageSwitcher.astro';
+import SubtleButton from '@components/ui/SubtleButton.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -17,24 +18,23 @@ const links = [
 <nav class="nav" aria-label="Main">
 
    <div class="domain-div">
-    <button class="domain" aria-label="Domains" aria-expanded="false"> mbudak21.com
-    </button>
+    <SubtleButton class="domain" aria-label="Domains" aria-expanded="false">mbudak21.com</SubtleButton>
    </div>
 
   <div class="links" role="menubar">
-    {links.map(l => <a class="link" role="menuitem" href={l.href}>{l.label}</a>)}
+    {links.map(l => <SubtleButton href={l.href} role="menuitem" underlineColor="var(--highlight-color)">{l.label}</SubtleButton>)}
   </div>
 
   <div class="actions">
-    <button class="burger" aria-label="Menu" aria-expanded="false">
+    <SubtleButton class="burger" aria-label="Menu" aria-expanded="false">
       <span class="bar"></span>
-    </button>
+    </SubtleButton>
     <LanguageSwitcher />
   </div>
 </nav>
 
 <div class="glass drawer" id="drawer">
-  {links.map(l => <a href={l.href} class="link">{l.label}</a>)}
+  {links.map(l => <SubtleButton href={l.href}>{l.label}</SubtleButton>)}
 </div>
 
 
@@ -78,42 +78,18 @@ const links = [
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
+    --sb-color: var(--heading-color);
+    --sb-font-size: 18px;
+    --sb-weight: 700;
+    --sb-letter-spacing: .4px;
+    --sb-radius: 10px;
+    --sb-padding: 0.3rem 1.1rem 0.3rem 0.5rem;
   }
 
-  .domain {
-    all: unset;
-    font-family: inherit;
-    font-size: 18px;
-    font-weight: 700; 
-    letter-spacing: .4px;
-
-    padding: 0.3rem 1.1rem 0.3rem 0.5rem;
-
-    color: var(--heading-color);
-    background-color: transparent;
-
-    border-radius: 10px;
-    border-width: 0px;
-
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-  }
-  .domain:active {
-    box-shadow: none;
-    border-color: transparent;
-    background-color: inherit;
-  }
-  .domain:hover {
-    cursor: pointer;
-    border-color: #aaaaaa6b;
-    border-color: var(--font-color); 
-    background-color: rgba(127, 127, 127, 0.08);
-  }
-  .domain::after {
+  .domain-div::after {
     content: "";
-    position:absolute;
+    position: absolute;
 
     top: 5px;
     right: 7px;
@@ -126,8 +102,9 @@ const links = [
 
     opacity: 0.5;
     transition: opacity 0.2s ease;
+    pointer-events: none;
   }
-  .domain:hover::after {
+  .domain-div:hover::after {
     opacity: 1;
   }
 
@@ -138,20 +115,8 @@ const links = [
 
   .links {
     display: none; gap: 1rem; align-items: center;
+    --sb-padding: 0.3rem 0.25rem;
   }
-
-  .link {
-    position: relative; text-decoration: none; color: var(--font-color);
-    padding: .4rem .2rem; font-weight: 600;
-    max-width: 100px;
-  }
-  /* animated underline */
-  .link::after {
-    content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 100%;
-    background: var(--highlight-color);
-    transform: scaleX(0); transform-origin: left; transition: transform .25s ease;
-  }
-  .link:hover::after, .link:focus-visible::after { transform: scaleX(1); }
 
   .actions {
     display: flex;
@@ -160,9 +125,11 @@ const links = [
   }
 
   /* hamburger */
-  .burger {
-    width: 34px; height: 28px; display: grid; place-items: center;
-    border: 0; background: transparent; cursor: pointer;
+  :global(.burger) {
+    width: 48px;
+    height: 38px;
+    justify-content: center;
+    --sb-padding: 0;
   }
   .bar, .bar::before, .bar::after {
     display: block; width: 22px; height: 2px; background: var(--font-color);
@@ -172,9 +139,9 @@ const links = [
   .bar { position: relative; }
   .bar::before { position: absolute; transform: translateY(-7px); }
   .bar::after  { position: absolute; transform: translateY(7px); }
-  .burger[aria-expanded="true"] .bar   { transform: rotate(45deg); }
-  .burger[aria-expanded="true"] .bar::before { opacity: 0; }
-  .burger[aria-expanded="true"] .bar::after  { transform: rotate(-90deg); }
+  :global(.burger[aria-expanded="true"]) .bar   { transform: rotate(45deg); }
+  :global(.burger[aria-expanded="true"]) .bar::before { opacity: 0; }
+  :global(.burger[aria-expanded="true"]) .bar::after  { transform: rotate(-90deg); }
 
 /* mobile drawer */
   .drawer {
@@ -194,9 +161,12 @@ const links = [
     overflow: hidden;
     opacity: 0;
     
-    z-index: 9; 
+    z-index: 9;
 
     transition: max-height .3s ease, opacity .2s ease;
+
+    --sb-radius: 0.6rem;
+    --sb-padding: .6rem .8rem;
   }
 
   .drawer.open {
@@ -204,17 +174,15 @@ const links = [
     opacity: 1; 
   }
   
-  .drawer a { padding: .6rem 0; text-decoration: none; color: var(--font-color); }
-
   /* desktop */
   @media (min-width: 768px) {
-    .burger { display: none; }
+    :global(.nav .actions .burger) { display: none; }
     .links { display: flex; }
     .drawer { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .link::after, .bar, .bar::before, .bar::after, .drawer { transition: none; }
+    .bar, .bar::before, .bar::after, .drawer { transition: none; }
   }
 </style>
 

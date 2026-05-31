@@ -14,6 +14,13 @@ export default defineConfig({
     routing: {
       prefixDefaultLocale: true,
     },
-  }
+  },
+
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+      wrap: true,
+    },
+  },
 
 });

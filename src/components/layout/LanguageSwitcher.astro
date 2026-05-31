@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl } from '@i18n/utils';
 import { languages } from '@i18n/ui';
+import SubtleButton from '@components/ui/SubtleButton.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const { pathname } = Astro.url;
@@ -15,13 +16,13 @@ const options = Object.entries(languages) as [keyof typeof languages, string][];
 ---
 
 <details class="lang">
-  <summary aria-label="Language">{lang.toUpperCase()}</summary>
+  <SubtleButton as="summary" aria-label="Language">{lang.toUpperCase()}</SubtleButton>
   <ul class="menu glass" role="menu">
     {options.map(([code, label]) => (
       <li role="none">
-        <a role="menuitem" href={localizedPath(code)} aria-current={code === lang ? 'true' : undefined}>
+        <SubtleButton href={localizedPath(code)} role="menuitem" aria-current={code === lang ? 'true' : undefined}>
           {label}
-        </a>
+        </SubtleButton>
       </li>
     ))}
   </ul>
@@ -30,24 +31,10 @@ const options = Object.entries(languages) as [keyof typeof languages, string][];
 <style>
   .lang {
     position: relative;
+    --sb-padding: 0.3rem 1.4rem 0.3rem 0.7rem;
   }
 
-  .lang summary {
-    list-style: none;
-    cursor: pointer;
-    user-select: none;
-
-    font-weight: 600;
-    color: var(--font-color);
-
-    padding: 0.3rem 1.4rem 0.3rem 0.7rem;
-    border-radius: 999px;
-    transition: background-color 0.2s ease;
-  }
-  .lang summary::-webkit-details-marker { display: none; }
-  .lang summary:hover { background-color: rgba(127, 127, 127, 0.08); }
-
-  .lang summary::after {
+  .lang::after {
     content: "";
     position: absolute;
     top: 0.65rem;
@@ -59,8 +46,9 @@ const options = Object.entries(languages) as [keyof typeof languages, string][];
     transform: rotate(45deg);
     opacity: 0.5;
     transition: transform 0.2s ease, opacity 0.2s ease;
+    pointer-events: none;
   }
-  .lang[open] summary::after {
+  .lang[open]::after {
     transform: rotate(-135deg);
     opacity: 1;
   }
@@ -78,17 +66,14 @@ const options = Object.entries(languages) as [keyof typeof languages, string][];
     border: 1px solid var(--border-color);
     border-radius: 0.8rem;
     z-index: 11;
+
+    --sb-radius: 0.6rem;
+    --sb-padding: 0.5rem 0.8rem;
   }
 
-  .menu a {
-    display: block;
-    padding: 0.5rem 0.8rem;
-    border-radius: 0.6rem;
-    text-decoration: none;
-    color: var(--font-color);
-    font-weight: 600;
-    transition: background-color 0.2s ease;
+  .menu li { display: grid; }
+
+  :global(.lang .menu [aria-current="true"]) {
+    --sb-color: var(--highlight-color);
   }
-  .menu a:hover { background-color: rgba(127, 127, 127, 0.08); }
-  .menu a[aria-current="true"] { color: var(--highlight-color); }
 </style>

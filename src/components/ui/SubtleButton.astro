@@ -1,0 +1,90 @@
+---
+export interface Props {
+  href?: string;
+  as?: 'a' | 'button' | 'summary';
+  type?: 'button' | 'submit' | 'reset';
+  underlineColor?: string;
+  style?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { href, as, type = 'button', underlineColor, style, class: className, ...rest } = Astro.props;
+const Tag = as ?? (href ? 'a' : 'button');
+const tagProps = Tag === 'a' ? { href } : Tag === 'button' ? { type } : {};
+const styleStr = [underlineColor && `--sb-underline-color: ${underlineColor}`, style].filter(Boolean).join('; ') || undefined;
+---
+
+<Tag class:list={['subtle-button', { 'has-underline': underlineColor }, className]} style={styleStr} {...tagProps} {...rest}>
+  <slot />
+</Tag>
+
+<style>
+  .subtle-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    font: inherit;
+    font-weight: var(--sb-weight, 600);
+    font-size: var(--sb-font-size, inherit);
+    letter-spacing: var(--sb-letter-spacing, normal);
+    color: var(--sb-color, var(--font-color));
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+
+    background: transparent;
+    border: none;
+    border-radius: var(--sb-radius, 999px);
+    padding: var(--sb-padding, 0.3rem 0.7rem);
+
+    transition: background-color 0.2s ease;
+  }
+
+  .subtle-button::-webkit-details-marker {
+    display: none;
+  }
+
+  .subtle-button:hover {
+    background-color: rgba(127, 127, 127, 0.08);
+  }
+
+  .subtle-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .subtle-button:disabled:hover {
+    background-color: transparent;
+  }
+
+  .has-underline {
+    position: relative;
+  }
+
+  .has-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 2px;
+    width: 100%;
+    background: var(--sb-underline-color, var(--highlight-color));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .has-underline:hover::after,
+  .has-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .has-underline::after {
+      transition: none;
+    }
+  }
+</style>

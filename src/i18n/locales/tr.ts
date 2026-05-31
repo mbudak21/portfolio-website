@@ -35,4 +35,13 @@ export const tr: Record<keyof typeof en, string> = {
   'projects.jester.desc': 'Sahte gezinti simülasyonu yaparak YouTube, Amazon ve diğer e-ticaret sitelerindeki reklam algoritmalarını manipüle etmeni (ve kafalarını karıştırmanı) sağlayan bir masaüstü uygulaması.',
   'projects.other.title': 'Diğer Projeler',
   'projects.other.desc': 'Diğer tüm projelerimi ve kodlarımı GitHub profilimde inceleyebilirsin!',
+
+  'blog.title': 'Blog',
+  'blog.desc': 'Geliştirdiğim şeyler üzerine düşünceler, notlar ve yazılar.',
+  'blog.empty': 'Henüz yazı yok — yakında tekrar uğra.',
+
+  'contact.title': 'İletişim',
+  'contact.desc': 'Benimle iletişime geç ya da bilgilerimi vCard olarak indir.',
+  'contact.download': 'vCard İndir',
+  'contact.cv': 'CV İndir',
 };
